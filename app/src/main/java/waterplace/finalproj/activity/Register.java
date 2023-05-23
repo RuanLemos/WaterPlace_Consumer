@@ -92,7 +92,6 @@ public class Register extends AppCompatActivity {
                         String num = ((android.widget.EditText)findViewById(R.id.input_num)).getText().toString();
                         address.setNum(Integer.parseInt(num));
                         address.setComp(((android.widget.EditText)findViewById(R.id.input_comp)).getText().toString());
-
                         try {
                             user.setBirthdate(new SimpleDateFormat("dd/MM/yy").parse(birthdate.toString()));
                         } catch (ParseException e) {
