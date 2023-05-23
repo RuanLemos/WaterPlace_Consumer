@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "955957884031",
+    "project_id": "waterplace-b38d2",
+    "storage_bucket": "waterplace-b38d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955957884031:android:4068ca3279238d95d63b4a",
+        "android_client_info": {
+          "package_name": "waterplace.finalproj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955957884031-nnn2lgshl9fq6qtioo2i9cphb7sqlif9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcnwJlEYOp7jIDQizgg6G922YvLFht8fQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955957884031-nnn2lgshl9fq6qtioo2i9cphb7sqlif9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

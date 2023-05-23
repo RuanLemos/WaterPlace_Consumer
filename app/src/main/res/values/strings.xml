@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Waterplace</string>
+    <string name="Login">Login</string>
+    <string name="Cadastro">Cadastrar-se</string>
+    <string name="TxtCadastro">Cadastro</string>
+    <string name="Cadastrar">Cadastrar</string>
+    <string name="Email">Email</string>
+    <string name="Senha">Senha</string>
+    <string name="ConfSenha">Confirmar Senha</string>
+    <string name="Recover">Esqueceu sua senha? -></string>
+    <string name="RecoverTxt">Recuperar Senha</string>
+    <string name="Enviar">Enviar</string>
+    <string name="Nome">Nome Completo</string>
+    <string name="Telefone">Telefone</string>
+    <string name="DataNasc">Data de Nascimento</string>
+    <string name="Endereco">Endereço para entrega</string>
+    <string name="Rua">Rua</string>
+    <string name="Numero">Número</string>
+    <string name="Complemento">Complemento</string>
+    <string name="TxtExplica">Por favor, indique o seu endereço de email. Você receberá um link para criar uma nova senha.</string>
+    <string name="TxtConfirm">Um e-mail para redefinir a sua senha foi enviado!</string>
+</resources>
