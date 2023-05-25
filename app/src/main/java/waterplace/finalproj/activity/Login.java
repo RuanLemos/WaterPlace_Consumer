@@ -81,62 +81,32 @@ public class Login extends AppCompatActivity {
         String password = ((android.widget.EditText)findViewById(R.id.input_password)).getText().toString();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
             if (task.isSuccessful()) {
-                DatabaseReference usersRef = database.child("Users");
-                usersRef.orderByChild("email").equalTo(email)
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    Toast.makeText(Login.this, "Conta inválida para esta aplicação", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    goMenu();
-                                }
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    String uid = user.getUid();
+                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+                    usersRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()) {
+                                goMenu();
+                            } else {
+                                Toast.makeText(Login.this, "Conta inválida para esta aplicação", Toast.LENGTH_SHORT).show();
                             }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Handle Realtime Database query cancellation
-                            }
-                        });
-                //goMenu();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(Login.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(Login.this, "Usuário não encontrado", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Exception e = task.getException();
                 Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-    /*public void login() {
-        String email = ((android.widget.EditText)findViewById(R.id.input_email)).getText().toString();
-        String password = ((android.widget.EditText)findViewById(R.id.input_password)).getText().toString();
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<String> signInMethods = task.getResult().getSignInMethods();
-                if (signInMethods != null && !signInMethods.isEmpty()) {
-                    // A conta existe, faça o login
-                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(loginTask -> {
-                        if (loginTask.isSuccessful()) {
-                            // Login bem-sucedido, vá para a próxima tela
-                            goMenu();
-                        } else {
-                            // Login falhou, exiba uma mensagem de erro para o usuário
-                            Exception e = loginTask.getException();
-                            Toast.makeText(Login.this, "Falha no login: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    // A conta não existe, exiba uma mensagem de erro para o usuário
-                    Toast.makeText(Login.this, "Conta não encontrada", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                // Ocorreu um erro ao verificar a existência da conta
-                Exception e = task.getException();
-                Toast.makeText(Login.this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    } */
 }
