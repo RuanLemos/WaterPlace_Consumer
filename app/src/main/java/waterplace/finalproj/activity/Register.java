@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -23,8 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import waterplace.finalproj.R;
 import waterplace.finalproj.model.Address;
 import waterplace.finalproj.model.User;
+import waterplace.finalproj.util.GeocodeUtil;
 
-public class Register extends AppCompatActivity {
+public class Register extends AppCompatActivity{
 
     private ImageButton btn_arrow;
     private Button btn_reg;
@@ -73,6 +75,7 @@ public class Register extends AppCompatActivity {
         startActivity(i);
     }
 
+    @SuppressLint("SimpleDateFormat")
     public void register(){
         String userEmail = ((EditText)findViewById(R.id.input_email_3)).getText().toString();
         String userPassword = ((EditText)findViewById(R.id.input_password_2)).getText().toString();
@@ -99,6 +102,12 @@ public class Register extends AppCompatActivity {
                         }
                         //Gera um UID para o endereço dentro do documento do usuário
                         String addressUid = usersRef.child(uid).child("Addresses").push().getKey();
+
+                        double[] coords = GeocodeUtil.geocode(address.getAvenue() + " " + address.getNum());
+                        if (coords != null) {
+                            address.setLatitude(coords[1]);
+                            address.setLongitude(coords[0]);
+                        }
 
                         // Salva o usuário com o UID como identificador do documento
                         usersRef.child(uid).setValue(user)

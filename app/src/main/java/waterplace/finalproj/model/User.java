@@ -1,4 +1,8 @@
 package waterplace.finalproj.model;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.GenericTypeIndicator;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -6,10 +10,10 @@ public class User {
     private String name;
     private String phone;
     private Date birthdate;
-    private List<String> addresses;
+    private List<Address> addresses;
 
     private List<String> requests;
-
+    private static User instance;
     public List<String> getRequests() {
         return requests;
     }
@@ -18,7 +22,21 @@ public class User {
         this.requests = requests;
     }
 
-    public User() {
+    public User() {}
+
+    private User(DataSnapshot dataSnapshot) {
+        this.name = dataSnapshot.child("name").getValue().toString();
+        this.phone = dataSnapshot.child("phone").getValue().toString();
+        GenericTypeIndicator<ArrayList<Address>> addressesType = new GenericTypeIndicator<ArrayList<Address>>() {};
+        this.addresses = dataSnapshot.child("Addresses").getValue(addressesType);
+    }
+
+    public static User getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(User instance) {
+        User.instance = instance;
     }
 
     public String getName() {
@@ -45,11 +63,11 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public List<String> getAddresses() {
+    public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<String> addresses) {
+    public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 }

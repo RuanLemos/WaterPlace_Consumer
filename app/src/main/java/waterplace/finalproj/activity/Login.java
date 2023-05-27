@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.model.User;
 
 public class Login extends AppCompatActivity {
     private ImageButton bt;
