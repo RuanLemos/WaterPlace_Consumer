@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.listener.UserListener;
 import waterplace.finalproj.model.User;
 
 public class Login extends AppCompatActivity {
@@ -91,7 +92,11 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()) {
-                                goMenu();
+                                User.setListener(user1 -> {
+                                    goMenu();
+                                });
+
+                                User.setInstance(snapshot, uid);
                             } else {
                                 Toast.makeText(Login.this, "Conta inválida para esta aplicação", Toast.LENGTH_SHORT).show();
                             }
