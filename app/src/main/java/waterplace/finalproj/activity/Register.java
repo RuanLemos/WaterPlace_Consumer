@@ -105,8 +105,8 @@ public class Register extends AppCompatActivity{
 
                         double[] coords = GeocodeUtil.geocode(address.getAvenue() + " " + address.getNum());
                         if (coords != null) {
-                            address.setLatitude(coords[1]);
-                            address.setLongitude(coords[0]);
+                            address.setLatitude(coords[0]);
+                            address.setLongitude(coords[1]);
                         }
 
                         // Salva o usuário com o UID como identificador do documento
