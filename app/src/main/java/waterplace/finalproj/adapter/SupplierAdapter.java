@@ -2,6 +2,7 @@ package waterplace.finalproj.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.activity.SupplierMenu;
 import waterplace.finalproj.model.Supplier;
 import waterplace.finalproj.model.SupplierDistance;
 
@@ -40,11 +42,13 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SupplierDistance supDistance = suppliers.get(position);
         Supplier supplier = supDistance.getSupplier();
+        String uid = supDistance.getUid();
         DecimalFormat df = new DecimalFormat("0.0");
 
         holder.txt_supplier_name.setText(supplier.getName());
         holder.txt_supplier_category.setText("ainda nao tem nada");
         holder.txt_supplier_distance.setText(df.format(supDistance.getDistance()) + "km");
+        holder.itemView.setOnClickListener(v -> onItemClick(uid));
     }
 
     @Override
@@ -62,5 +66,11 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
             txt_supplier_category = itemView.findViewById(R.id.txt_supplier_category);
             txt_supplier_distance = itemView.findViewById(R.id.txt_supplier_distance);
         }
+    }
+
+    private void onItemClick(String uid){
+        Intent i = new Intent(context, SupplierMenu.class);
+        i.putExtra("uid", uid);
+        context.startActivity(i);
     }
 }

@@ -2,27 +2,16 @@ package waterplace.finalproj.model;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Supplier {
     private String name;
-    private int cnpj;
+    private Long cnpj;
     private String phone;
     private Address address;
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public static void setInstance(Supplier instance) {
-        Supplier.instance = instance;
-    }
-
-    private List<String> products;
+    private List<Product> products;
+    private String uid;
 
     // Cria um construtor com o padrão singleton
     private static Supplier instance;
@@ -31,23 +20,17 @@ public class Supplier {
     public Supplier(){}
 
     // Construtor privado para o padrão singleton
-    private Supplier(DataSnapshot dataSnapshot){
-        this.name = dataSnapshot.child("name").getValue().toString();
-        this.cnpj = Integer.parseInt(dataSnapshot.child("cnpj").getValue().toString());
-        this.phone = dataSnapshot.child("phone").getValue().toString();
-        if (dataSnapshot.child("products").exists()){
-            this.products = (List<String>) dataSnapshot.child("products").getValue();
-        }
 
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public static Supplier getInstance(){
-        return instance;
+    public String getUid(){
+        return uid;
     }
-    public static void setInstance(DataSnapshot dataSnapshot){
-        instance = new Supplier(dataSnapshot);
-    }
-
     public String getName() {
         return name;
     }
@@ -56,11 +39,11 @@ public class Supplier {
         this.name = name;
     }
 
-    public int getCnpj() {
+    public Long getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(int cnpj) {
+    public void setCnpj(Long cnpj) {
         this.cnpj = cnpj;
     }
 
@@ -72,11 +55,14 @@ public class Supplier {
         this.phone = phone;
     }
 
-    public List<String> getProducts() {
+    public List<Product> getProducts() {
+        if (this.products == null) {
+            this.products = new ArrayList<>();
+        }
         return products;
     }
 
-    public void setProducts(List<String> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }

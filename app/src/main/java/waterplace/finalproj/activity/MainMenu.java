@@ -30,56 +30,56 @@ import waterplace.finalproj.util.DistanceUtil;
 
 public class MainMenu extends AppCompatActivity {
 
+    List<SupplierDistance> supplierDistances = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main_menu);
-        System.out.println("aaaaa");
-        //System.out.println(user);
         User user = User.getInstance();
-        //Log.d("NOME DO MANO", user.getName());
         Address address = user.getAddresses().get(0);
-        //System.out.println(address.getLatitude() + "AAHHAHAHAHAHHA");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Suppliers");
-        List<SupplierDistance> supplierDistances = new ArrayList<>();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot supplierSnapshot : snapshot.getChildren()) {
+                    //System.out.println("ó a id desse merda que tá bugando tudo -> " + supplierSnapshot.getKey());
                     Supplier supplier = supplierSnapshot.getValue(Supplier.class);
                     assert supplier != null;
                     supplier.setAddress(supplierSnapshot.child("Address").getValue(Address.class));
                     double distance;
-                    DecimalFormat df = new DecimalFormat("0.0");
+
                     if (supplier.getAddress() != null) {
                         distance = DistanceUtil.calcDistance(address.getLatitude(), address.getLongitude(), supplier.getAddress().getLatitude(), supplier.getAddress().getLongitude());
 
-                        System.out.println(supplier.getName());
-                        System.out.println(df.format(distance));
-                        System.out.println("AWAWAWAAWAWAWA");
+                        //System.out.println(supplier.getName());
+                        //System.out.println(df.format(distance));
+                        //System.out.println("AWAWAWAAWAWAWA");
 
                         //limite padrão para filtrar é 20km de distância
                         if (distance <= 20.0) {
-                            SupplierDistance supDistance = new SupplierDistance(supplier, distance);
+                            String supUid = supplierSnapshot.getKey();
+                            SupplierDistance supDistance = new SupplierDistance(supplier, distance, supUid);
                             supplierDistances.add(supDistance);
-                            //System.out.println("entroulis");
                         }
                     }
-                    //System.out.println("saiu");
                 }
-                //System.out.println("saiu tb");
-                //System.out.println(supplierDistances.size() + " ABABABABA");
-                RecyclerView recyclerView = findViewById(R.id.recycler_view);
-                SupplierAdapter adapter = new SupplierAdapter(supplierDistances, MainMenu.this);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
+                listSuppliers();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(MainMenu.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void listSuppliers() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        SupplierAdapter adapter = new SupplierAdapter(supplierDistances, MainMenu.this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
     }
 }

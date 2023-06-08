@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="ChipWithBorder" parent="Widget.MaterialComponents.ChipGroup">
+        <item name="chipStrokeColor">@android:color/black</item> <!-- Cor da borda -->
+        <item name="chipStrokeWidth">2dp</item> <!-- Largura da borda -->
+    </style>
+
+</resources>
