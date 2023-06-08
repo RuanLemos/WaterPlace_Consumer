@@ -28,6 +28,9 @@
             android:name=".activity.Login"
             android:exported="false" />
         <activity
+            android:name=".activity.SupplierMenu"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
