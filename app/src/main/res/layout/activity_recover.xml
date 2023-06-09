@@ -21,6 +21,7 @@
 
     <EditText
         android:id="@+id/input_email_2"
+        android:elevation="6dp"
         android:layout_width="293dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
@@ -37,6 +38,7 @@
 
     <TextView
         android:id="@+id/txt_email_2"
+        android:elevation="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"

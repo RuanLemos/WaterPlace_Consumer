@@ -17,6 +17,11 @@
     <string name="Rua">Rua</string>
     <string name="Numero">Número</string>
     <string name="Complemento">Complemento</string>
+    <string name="CEP">CEP</string>
+    <string name="Erro">A informação fornecida no campo é inválida.</string>
+    <string name="Erro_util">Email já cadastrado no sistema.</string>
+    <string name="Erro_senha">Verifique se as senhas fornecidas são iguais.</string>
+    <string name="Erro_end">Endereço não encontrado</string>
     <string name="TxtExplica">Por favor, indique o seu endereço de email. Você receberá um link para criar uma nova senha.</string>
     <string name="TxtConfirm">Um e-mail para redefinir a sua senha foi enviado!</string>
     <string name="placeholder">Placeholder</string>
