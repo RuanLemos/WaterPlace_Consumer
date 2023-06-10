@@ -25,4 +25,5 @@
     <string name="TxtExplica">Por favor, indique o seu endereço de email. Você receberá um link para criar uma nova senha.</string>
     <string name="TxtConfirm">Um e-mail para redefinir a sua senha foi enviado!</string>
     <string name="placeholder">Placeholder</string>
+    <string name="title_activity_buy_product">BuyProduct</string>
 </resources>
