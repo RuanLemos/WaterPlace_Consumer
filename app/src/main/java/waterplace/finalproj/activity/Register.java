@@ -4,17 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,7 +67,7 @@ public class Register extends AppCompatActivity{
         btn_reg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                register();
+                filterInputs(true);
             }
         });
     }
@@ -73,6 +79,73 @@ public class Register extends AppCompatActivity{
     public void goLogin(){
         Intent i = new Intent(this, Login.class);
         startActivity(i);
+    }
+
+    public void filterInputs(boolean canregister){
+        String userEmail = ((EditText)findViewById(R.id.input_email_3)).getText().toString();
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+            // Formato de Email inválido
+            showError((EditText) findViewById(R.id.input_email_3), (TextView) findViewById(R.id.error));
+
+        } else {
+            // Formato de Email é válido, manda para o firebase para checar a existencia do email
+            firebaseAuth.fetchSignInMethodsForEmail(userEmail).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+
+                    if (isNewUser) {
+                        // Pode registrar o email
+                        String userPhone = ((EditText)findViewById(R.id.input_telefone)).getText().toString();
+                        String userBdate = ((EditText)findViewById(R.id.input_date)).getText().toString();
+
+                        if(verifyPhone(userPhone) && verifyBdate(userBdate)){
+                            register();
+                        }
+                    } else {
+                        // Email já foi utilizado, mostra o texto vermelho e trocar cor de borda do campo
+                        showError((EditText) findViewById(R.id.input_email_3), (TextView) findViewById(R.id.error_util));
+                    }
+                } else {
+                    // Informação Invalida, mostra o texto vermelho e trocar cor de borda do campo
+                    showError((EditText) findViewById(R.id.input_email_3), (TextView) findViewById(R.id.error));
+
+                }
+            });
+        }
+    }
+
+    public boolean verifyPhone(String phoneNumber){
+        String phonePattern = "^[0-9]{2} [0-9]{9}$";
+        Pattern pattern = Pattern.compile(phonePattern);
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        if (matcher.matches()){
+            return true;
+        } else {
+            showError((EditText) findViewById(R.id.input_telefone), (TextView) findViewById(R.id.error_2));
+
+            return false;
+        }
+    }
+
+    public boolean verifyBdate(String bdayNumber){
+        String bdayPattern = "dd/MM/yyyy";
+        Pattern pattern = Pattern.compile(bdayPattern);
+        Matcher matcher = pattern.matcher(bdayNumber);
+
+        if (matcher.matches()){
+            return true;
+        } else {
+            showError((EditText) findViewById(R.id.input_date), (TextView) findViewById(R.id.error_3));
+
+            return false;
+        }
+    }
+
+    public void showError(EditText inputField, TextView verificationText) {
+        inputField.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9494")));
+        verificationText.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -129,7 +202,8 @@ public class Register extends AppCompatActivity{
                 }
             });
         } else {
-            Toast.makeText(Register.this, "As senhas não são idênticas", Toast.LENGTH_SHORT).show();
+            showError((EditText) findViewById(R.id.input_password_2), (TextView) findViewById(R.id.error_4));
+            showError((EditText) findViewById(R.id.input_confirm_password), null);
         }
     }
 }
