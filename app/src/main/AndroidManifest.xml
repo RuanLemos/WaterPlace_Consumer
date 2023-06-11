@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Waterplace"
         tools:targetApi="31">
         <activity
+            android:name=".activity.OrderDetails"
+            android:exported="false" />
+        <activity
             android:name=".activity.Orders"
             android:exported="false" />
         <activity

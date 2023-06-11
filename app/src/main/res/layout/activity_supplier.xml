@@ -98,8 +98,9 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="357dp"
         android:text="5.0"
-        android:textColor="@android:color/holo_orange_light"
+        android:textColor="#fce603"
         android:textSize="14dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/legenda" />
