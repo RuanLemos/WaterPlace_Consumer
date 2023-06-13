@@ -51,6 +51,7 @@
 
         <EditText
             android:id="@+id/input_nome"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
@@ -65,6 +66,7 @@
 
         <TextView
             android:id="@+id/txt_nome"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -75,8 +77,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header_cadastro" />
 
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:text="@string/Erro"
+            android:textColor="#FF9494"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/input_email_3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/error_util"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="98dp"
+            android:text="@string/Erro_util"
+            android:textColor="#FF9494"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/input_email_3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
             android:id="@+id/input_email_3"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -91,6 +118,7 @@
 
         <TextView
             android:id="@+id/txt_email_3"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -101,8 +129,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/input_nome" />
 
+        <TextView
+            android:id="@+id/error_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:text="@string/Erro"
+            android:textColor="#FF9494"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/input_telefone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
             android:id="@+id/input_telefone"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -117,6 +158,7 @@
 
         <TextView
             android:id="@+id/txt_telefone"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -127,8 +169,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/input_email_3" />
 
+        <TextView
+            android:id="@+id/error_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:text="@string/Erro"
+            android:textColor="#FF9494"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/input_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
             android:id="@+id/input_date"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -141,6 +196,7 @@
 
         <TextView
             android:id="@+id/txt_date"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -153,6 +209,7 @@
 
         <EditText
             android:id="@+id/input_password_2"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -165,6 +222,7 @@
 
         <TextView
             android:id="@+id/txt_senha_2"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -175,8 +233,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/input_date" />
 
+        <TextView
+            android:id="@+id/error_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:text="@string/Erro_senha"
+            android:textColor="#FF9494"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/input_confirm_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
             android:id="@+id/input_confirm_password"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -189,6 +260,7 @@
 
         <TextView
             android:id="@+id/txt_confirm_senha"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -224,8 +296,21 @@
             app:layout_constraintTop_toBottomOf="@+id/header_endereco"
             app:srcCompat="@drawable/barra" />
 
+        <TextView
+            android:id="@+id/error_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="136dp"
+            android:text="@string/Erro_end"
+            android:textColor="#FF9494"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/input_rua"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
             android:id="@+id/input_rua"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -240,6 +325,7 @@
 
         <TextView
             android:id="@+id/txt_rua"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -252,6 +338,7 @@
 
         <EditText
             android:id="@+id/input_num"
+            android:elevation="6dp"
             android:layout_width="293dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -266,6 +353,7 @@
 
         <TextView
             android:id="@+id/txt_num"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -283,6 +371,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_background"
             android:drawablePadding="20dp"
+            android:elevation="6dp"
             android:ems="10"
             android:inputType="textPostalAddress"
             android:textColorHint="#69b2c3"
@@ -292,6 +381,7 @@
 
         <TextView
             android:id="@+id/txt_comp"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -301,6 +391,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/input_num" />
+
+        <EditText
+            android:id="@+id/input_cep2"
+            android:layout_width="293dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_background"
+            android:drawablePadding="20dp"
+            android:elevation="6dp"
+            android:ems="10"
+            android:inputType="number"
+            android:textColorHint="#69b2c3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_comp" />
+
+        <TextView
+            android:id="@+id/txt_cep2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="245dp"
+            android:elevation="6dp"
+            android:text="@string/CEP"
+            android:textColor="#69b2c3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_comp" />
 
         <Button
             android:id="@+id/bt_reg_2"
@@ -312,7 +430,7 @@
             app:cornerRadius="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_comp" />
+            app:layout_constraintTop_toBottomOf="@+id/input_cep2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
