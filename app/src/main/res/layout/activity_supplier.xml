@@ -56,10 +56,10 @@
 
     <TextView
         android:id="@+id/legenda"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="285dp"
+        android:layout_marginEnd="98dp"
         android:text="Apenas galões"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,10 +67,10 @@
 
     <TextView
         android:id="@+id/supplier_name"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="130dp"
-        android:layout_marginEnd="140dp"
+        android:layout_marginEnd="98dp"
         android:text="Nome do fornecedor"
         android:textColor="@color/black"
         android:textSize="26dp"
