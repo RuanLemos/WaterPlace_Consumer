@@ -79,7 +79,7 @@ public class MainMenu extends AppCompatActivity {
                 // Limpar os resultados anteriores
                 supplierDistances.clear();
                 for (DataSnapshot supplierSnapshot : snapshot.getChildren()) {
-                    //System.out.println("ó a id desse merda que tá bugando tudo -> " + supplierSnapshot.getKey());
+                    System.out.println("ó a id desse merda que tá bugando tudo -> " + supplierSnapshot.getKey());
                     Supplier supplier = supplierSnapshot.getValue(Supplier.class);
                     assert supplier != null;
                     supplier.setAddress(supplierSnapshot.child("Address").getValue(Address.class));
@@ -159,7 +159,7 @@ public class MainMenu extends AppCompatActivity {
 
     public void listSuppliers() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        SupplierAdapter adapter = new SupplierAdapter(supplierDistances, MainMenu.this);
+        SupplierAdapter adapter = new SupplierAdapter(supplierDistances, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
     }

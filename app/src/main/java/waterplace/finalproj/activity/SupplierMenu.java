@@ -60,7 +60,6 @@ public class SupplierMenu extends AppCompatActivity {
                 if (snapshot.exists()) {
                     supplier = snapshot.getValue(Supplier.class);
                     makeProdList();
-                    setCapaImage();
                 }
             }
 
@@ -126,12 +125,14 @@ public class SupplierMenu extends AppCompatActivity {
     }
 
     private void updateUI(){
+        setCapaImage();
+
         // Nome do fornecedor
         TextView nome_supplier = findViewById(R.id.supplier_name);
         nome_supplier.setText(supplier.getName());
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_products);
-        ProductAdapter adapter = new ProductAdapter(products, uid);
+        ProductAdapter adapter = new ProductAdapter(products, uid, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
