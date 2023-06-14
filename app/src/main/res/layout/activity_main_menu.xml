@@ -11,10 +11,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="373dp"
-        android:layout_height="670dp"
+        android:layout_height="400dp"
         android:layout_margin="16dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/menu_footer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -47,4 +46,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.029" />
     />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:itemIconSize="40dp"
+        app:itemIconTint="@color/menu_colors"
+        app:itemPaddingTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_item">
+
+        <View
+            android:id="@+id/divisor_footer"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/line_divider" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
