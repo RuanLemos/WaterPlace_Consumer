@@ -58,7 +58,7 @@
 
     <TextView
         android:id="@+id/supplier_name_2"
-        android:layout_width="wrap_content"
+        android:layout_width="239dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="30dp"
@@ -108,7 +108,7 @@
 
     <TextView
         android:id="@+id/distance"
-        android:layout_width="wrap_content"
+        android:layout_width="58dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="70dp"
@@ -146,11 +146,10 @@
 
     <TextView
         android:id="@+id/item_name"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
         android:layout_marginTop="45dp"
-        android:layout_marginEnd="190dp"
+        android:layout_marginEnd="8dp"
         android:text="Nome Item"
         android:textColor="@color/black"
         android:textSize="16dp"
@@ -161,11 +160,11 @@
 
     <TextView
         android:id="@+id/amount"
-        android:layout_width="wrap_content"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="208dp"
+        android:layout_marginEnd="190dp"
         android:text="Quantidade"
         android:textSize="12dp"
         android:textStyle="bold"
@@ -175,11 +174,11 @@
 
     <TextView
         android:id="@+id/del_type"
-        android:layout_width="wrap_content"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="228dp"
+        android:layout_marginEnd="170dp"
         android:text="Entrega"
         android:textColor="@color/black"
         android:textSize="12dp"
@@ -190,9 +189,9 @@
 
     <TextView
         android:id="@+id/item_price"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
+        android:layout_marginStart="310dp"
         android:layout_marginTop="5dp"
         android:text="R$ "
         android:textColor="@color/black"
@@ -253,9 +252,9 @@
 
     <TextView
         android:id="@+id/subtotal_value"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
+        android:layout_marginStart="310dp"
         android:layout_marginTop="15dp"
         android:text="R$ "
         android:textColor="@color/black"
@@ -280,9 +279,9 @@
 
     <TextView
         android:id="@+id/tax_del_value"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
+        android:layout_marginStart="310dp"
         android:layout_marginTop="8dp"
         android:text="R$ "
         android:textColor="@color/black"
@@ -307,9 +306,9 @@
 
     <TextView
         android:id="@+id/tax_serv_value"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
+        android:layout_marginStart="310dp"
         android:layout_marginTop="8dp"
         android:text="R$ "
         android:textColor="@color/black"
@@ -335,9 +334,9 @@
 
     <TextView
         android:id="@+id/total_value"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
+        android:layout_marginStart="310dp"
         android:layout_marginTop="8dp"
         android:text="R$ "
         android:textColor="@color/black"
@@ -388,10 +387,10 @@
 
     <TextView
         android:id="@+id/end_del"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="246dp"
+        android:layout_marginEnd="148dp"
         android:text="Endereço de entrega"
         android:textSize="14dp"
         android:textStyle="bold"
@@ -401,10 +400,10 @@
 
     <TextView
         android:id="@+id/end_value"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="246dp"
+        android:layout_marginEnd="148dp"
         android:text="Endereço de entrega"
         android:textColor="@color/black"
         android:textSize="14dp"
