@@ -7,6 +7,7 @@ public class Order implements Serializable {
     private String userId;
     private String supplierId;
     private String prodId;
+    private String prodName;
     private int quantity;
     private double subtotal;
     private double price;
@@ -39,6 +40,14 @@ public class Order implements Serializable {
 
     public void setProdId(String prodId) {
         this.prodId = prodId;
+    }
+
+    public String getProdName() {
+        return prodName;
+    }
+
+    public void setProdName(String prodName) {
+        this.prodName = prodName;
     }
 
     public void setSupplierId(String supplierId) {

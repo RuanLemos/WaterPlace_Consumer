@@ -130,6 +130,7 @@ public class BuyProduct extends AppCompatActivity {
         order.setUserId(userUid);
         order.setSupplierId(uid);
         order.setProdId(prodUid);
+        order.setProdName(product.getName());
         order.setSubtotal(requestPrice);
         order.setQuantity(amount);
 

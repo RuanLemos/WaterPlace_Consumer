@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,7 @@ import waterplace.finalproj.model.Address;
 import waterplace.finalproj.model.Supplier;
 import waterplace.finalproj.model.SupplierDistance;
 import waterplace.finalproj.model.User;
+import waterplace.finalproj.util.BottomNavigationManager;
 import waterplace.finalproj.util.DistanceUtil;
 
 public class MainMenu extends AppCompatActivity {
@@ -37,6 +39,7 @@ public class MainMenu extends AppCompatActivity {
     Address address = user.getAddresses().get(0);
     List<SupplierDistance> supplierDistances = new ArrayList<>();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Suppliers");
+    private BottomNavigationManager bottomNavigationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,12 @@ public class MainMenu extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main_menu);
-        fornecedoresProximos();
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.menu_footer);
+        bottomNavigationManager = new BottomNavigationManager(this);
+        bottomNavigationManager.setupBottomNavigation(bottomNavigationView);
+
+        fornecedoresProximos();
 
         SearchView searchView = findViewById(R.id.searchView);
 

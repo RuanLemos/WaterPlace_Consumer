@@ -205,12 +205,12 @@
         android:id="@+id/divisor_6"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/line_divider"
         android:backgroundTint="#d9d9d9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icone_2" />
+        app:layout_constraintTop_toBottomOf="@+id/del_type" />
 
     <TextView
         android:id="@+id/header_resumo"
