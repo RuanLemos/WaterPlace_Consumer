@@ -16,17 +16,18 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import waterplace.finalproj.R;
 import waterplace.finalproj.activity.OrderDetails;
 import waterplace.finalproj.model.Order;
 
-public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapter.OrderViewHolder> {
+public class DeliveredOrderAdapter extends RecyclerView.Adapter<DeliveredOrderAdapter.OrderViewHolder> {
     private List<Order> ongoingOrderList;
     private Context context;
 
-    public OngoingOrderAdapter(List<Order> ongoingOrderList, Context context) {
+    public DeliveredOrderAdapter(List<Order> ongoingOrderList, Context context) {
         this.ongoingOrderList = ongoingOrderList;
         this.context = context;
     }
@@ -43,30 +44,22 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = ongoingOrderList.get(position);
-        holder.prodName.setText(order.getProdName());
 
         String location = order.getSupplierId()+"/products/"+order.getProdId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
+
+        holder.prodName.setText(order.getProdName());
 
         if (order.isScheduled()) {
             holder.deliveryDesc.setText("Agendamento para " + order.getOrderDateTime());
         } else {
             holder.deliveryDesc.setText("Entrega imediata");
         }
+        DecimalFormat pf = new DecimalFormat("0.00");
+        holder.orderPrice.setText("R$ " + pf.format(order.getPrice()));
+        System.out.println(order.getStatus());
 
-        holder.orderPrice.setText(String.valueOf(order.getPrice()));
-
-        if (order.getStatus().equals("Confirmado")) {
-            if (order.isScheduled()) {
-                holder.orderStatus.setText("Agendado para " + order.getOrderDateTime());
-            } else {
-                holder.orderStatus.setText("Aguardando entrega");
-            }
-        } else if (order.getStatus().equals("Aguardando Confirmação")){
-            holder.orderStatus.setText("Aguardando\nConfirmação");
-        } else {
-            holder.orderStatus.setText(order.getStatus());
-        }
+        holder.orderStatus.setText(order.getStatus() + "\n" + order.getDeliveryDateTime());
 
         Glide.with(holder.img.getContext())
                 .load(storageReference)

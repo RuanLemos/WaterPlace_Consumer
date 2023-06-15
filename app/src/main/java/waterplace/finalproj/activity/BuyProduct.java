@@ -13,12 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import waterplace.finalproj.R;
 import waterplace.finalproj.model.Address;
@@ -71,6 +74,7 @@ public class BuyProduct extends AppCompatActivity {
     }
 
     private void updateUI(){
+        loadImg();
         // Nome do fornecedor
         prod_name = findViewById(R.id.product_name);
         prod_name.setText(product.getName());
@@ -139,14 +143,11 @@ public class BuyProduct extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
                     address = addressSnapshot.getValue(Address.class);
-                    System.out.println("TEste");
-                    if (address.isSelected()) {
-                        String addressFormat = address.getAvenue() + ", " + address.getNum() + " - " + address.getComp()
-                                + "\n" + address.getDistrict() + " - " + address.getCity();
-                        order.setAddress(addressFormat);
-                        System.out.println("Ó O ENDEREÇOOO " + address.getAvenue());
-                        goOrder(order);
-                    }
+                    String addressFormat = address.getAvenue() + ", " + address.getNum() + " - " + address.getComp()
+                            + "\n" + address.getDistrict() + " - " + address.getCity();
+                    order.setAddress(addressFormat);
+                    System.out.println("Ó O ENDEREÇOOO " + address.getAvenue());
+                    goOrder(order);
                 }
             }
 
@@ -155,5 +156,11 @@ public class BuyProduct extends AppCompatActivity {
 
             }
         });
+    }
+    private void loadImg(){
+        String location = uid+"/products/"+prodUid;
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
+        ImageView img = findViewById(R.id.product_pic);
+        Glide.with(img.getContext()).load(storageReference).into(img);
     }
 }
