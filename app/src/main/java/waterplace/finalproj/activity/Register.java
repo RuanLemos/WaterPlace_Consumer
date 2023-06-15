@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -30,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import waterplace.finalproj.R;
 import waterplace.finalproj.model.Address;
 import waterplace.finalproj.model.User;
-import waterplace.finalproj.util.GeocodeUtil;
+import waterplace.finalproj.util.AddressUtil;
 
 public class Register extends AppCompatActivity{
 
@@ -83,11 +82,15 @@ public class Register extends AppCompatActivity{
 
     public void filterInputs(boolean canregister){
         String userEmail = ((EditText)findViewById(R.id.input_email_3)).getText().toString();
+        String cep = ((EditText)findViewById(R.id.input_cep2)).getText().toString();
 
         if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             // Formato de Email inválido
             showError((EditText) findViewById(R.id.input_email_3), (TextView) findViewById(R.id.error));
 
+        } else if (!AddressUtil.CEPcheck(Integer.parseInt(cep))) {
+            // CEP inválido
+            showError((EditText) findViewById(R.id.input_cep2), (TextView) findViewById(R.id.error));
         } else {
             // Formato de Email é válido, manda para o firebase para checar a existencia do email
             firebaseAuth.fetchSignInMethodsForEmail(userEmail).addOnCompleteListener(task -> {
@@ -98,6 +101,7 @@ public class Register extends AppCompatActivity{
                         // Pode registrar o email
                         String userPhone = ((EditText)findViewById(R.id.input_telefone)).getText().toString();
                         String userBdate = ((EditText)findViewById(R.id.input_date)).getText().toString();
+
 
                         if(verifyPhone(userPhone) && verifyBdate(userBdate)){
                             register();
@@ -134,13 +138,14 @@ public class Register extends AppCompatActivity{
         Pattern pattern = Pattern.compile(bdayPattern);
         Matcher matcher = pattern.matcher(bdayNumber);
 
-        if (matcher.matches()){
+        return true;
+        /*if (matcher.matches()){
             return true;
         } else {
             showError((EditText) findViewById(R.id.input_date), (TextView) findViewById(R.id.error_3));
 
             return false;
-        }
+        }*/
     }
 
     public void showError(EditText inputField, TextView verificationText) {
@@ -161,22 +166,36 @@ public class Register extends AppCompatActivity{
                         String uid = firebaseUser.getUid();
                         user = new User();
                         address = new Address();
+
+                        String cep = ((android.widget.EditText)findViewById(R.id.input_cep2)).getText().toString();
+
+                        address = AddressUtil.getAddressInfo(Integer.parseInt(cep));
+                        address.setCep(Integer.parseInt(cep));
+
                         user.setName(((android.widget.EditText)findViewById(R.id.input_nome)).getText().toString());
                         user.setPhone(((android.widget.EditText)findViewById(R.id.input_telefone)).getText().toString());
                         String birthdate = ((android.widget.EditText)findViewById(R.id.input_date)).getText().toString();
-                        address.setAvenue(((android.widget.EditText)findViewById(R.id.input_rua)).getText().toString());
+                        EditText rua = findViewById(R.id.input_rua);
+                        rua.setText(address.getAvenue());
                         String num = ((android.widget.EditText)findViewById(R.id.input_num)).getText().toString();
                         address.setNum(Integer.parseInt(num));
                         address.setComp(((android.widget.EditText)findViewById(R.id.input_comp)).getText().toString());
+
+                        String urlAddress = address.getAvenue() + " " + address.getCity() + " " + address.getCep();
+                        double[] latlong = AddressUtil.geocode(urlAddress);
+                        address.setLatitude(latlong[0]);
+                        address.setLongitude(latlong[1]);
+
                         try {
                             user.setBirthdate(new SimpleDateFormat("dd/MM/yy").parse(birthdate.toString()));
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
                         }
+
                         //Gera um UID para o endereço dentro do documento do usuário
                         String addressUid = usersRef.child(uid).child("Addresses").push().getKey();
 
-                        double[] coords = GeocodeUtil.geocode(address.getAvenue() + " " + address.getNum());
+                        double[] coords = AddressUtil.geocode(address.getAvenue() + " " + address.getNum());
                         if (coords != null) {
                             address.setLatitude(coords[0]);
                             address.setLongitude(coords[1]);

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.adapter.DeliveredOrderAdapter;
 import waterplace.finalproj.adapter.OngoingOrderAdapter;
 import waterplace.finalproj.adapter.ProductAdapter;
 import waterplace.finalproj.model.Order;
@@ -58,13 +59,15 @@ public class Orders extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
                     order = orderSnapshot.getValue(Order.class);
-                    if (order.getStatus().equals("Agendado") || order.getStatus().equals("Aguardando confirmação")) {
+                    order.setOrderId(orderSnapshot.getKey());
+                    if (order.getStatus().equals("Confirmado") || order.getStatus().equals("Aguardando confirmação") || order.getStatus().equals("A caminho")) {
                         onGoingOrders.add(order);
                     } else {
                         finishedOrders.add(order);
                     }
                 }
                 updateOngoingOrders();
+                updateDeliveredOrders();
             }
 
             @Override
@@ -77,6 +80,12 @@ public class Orders extends AppCompatActivity {
     private void updateOngoingOrders(){
         RecyclerView recyclerView = findViewById(R.id.recycler_ongoing);
         OngoingOrderAdapter adapter = new OngoingOrderAdapter(onGoingOrders, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+    private void updateDeliveredOrders(){
+        RecyclerView recyclerView = findViewById(R.id.recycle_history);
+        DeliveredOrderAdapter adapter = new DeliveredOrderAdapter(finishedOrders, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

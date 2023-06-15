@@ -10,8 +10,7 @@ public class Address implements Serializable {
     private double longitude;
     private String city;
     private String district;
-    private String cep;
-    private boolean selected;
+    private int cep;
 
     public Address() {
     }
@@ -72,19 +71,12 @@ public class Address implements Serializable {
         this.district = district;
     }
 
-    public String getCep() {
+    public int getCep() {
         return cep;
     }
 
-    public void setCep(String cep) {
+    public void setCep(int cep) {
         this.cep = cep;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
 }

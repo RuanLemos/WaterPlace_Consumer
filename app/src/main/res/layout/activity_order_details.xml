@@ -45,6 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_detalhes" />
 
+
     <ImageView
         android:id="@+id/icone_2"
         android:layout_width="74dp"
@@ -117,16 +118,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divisor_5" />
 
-    <ImageView
-        android:id="@+id/product_pic"
+    <FrameLayout
+        android:id="@+id/framezada"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="305dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icone_2"
-        app:srcCompat="@android:drawable/stat_sys_download" />
+        app:layout_constraintTop_toBottomOf="@+id/icone_2" >
+
+        <ImageView
+            android:id="@+id/product_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/stat_sys_download" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/amount_tag"
@@ -421,6 +433,7 @@
         android:drawableRight="@drawable/arrow_drop"
         android:paddingRight="8dp"
         android:text="Mudar Endereço"
+        android:visibility="gone"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/black"
@@ -433,7 +446,7 @@
         android:id="@+id/confirm"
         android:layout_width="140dp"
         android:layout_height="40dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="45dp"
         android:backgroundTint="#e9ffab"
         android:text="Confirmar pedido"
         android:textAlignment="center"
@@ -443,6 +456,6 @@
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/change_end" />
+        app:layout_constraintTop_toBottomOf="@+id/end_value" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,17 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -27,6 +32,7 @@ import waterplace.finalproj.model.Address;
 import waterplace.finalproj.model.Order;
 import waterplace.finalproj.model.Product;
 import waterplace.finalproj.model.Supplier;
+import waterplace.finalproj.model.User;
 import waterplace.finalproj.util.DistanceUtil;
 
 public class OrderDetails extends AppCompatActivity {
@@ -63,25 +69,27 @@ public class OrderDetails extends AppCompatActivity {
         setContentView(R.layout.activity_order_details);
 
         i = getIntent();
-
-        product = (Product) i.getSerializableExtra("product");
         order = (Order) i.getSerializableExtra("order");
-        userAddress = (Address) i.getSerializableExtra("user address");
 
-        updateUI();
+        supId = order.getSupplierId();
+        userId = order.getUserId();
 
         btn_confirm = findViewById(R.id.confirm);
         btn_confirm.setOnClickListener(v -> makeOrder());
+
+        if (order.getStatus() != null) {
+            btn_confirm.setVisibility(View.GONE);
+        }
+
+        updateUI();
+
     }
 
     @SuppressLint("SetTextI18n")
     private void updateUI(){
+        loadImg();
+        getUser();
         DecimalFormat pf = new DecimalFormat("0.00");
-        getSupplierData();
-        prodName = findViewById(R.id.item_name);
-        prodName.setText(product.getName());
-        prodDesc = findViewById(R.id.amount);
-        prodDesc.setText(product.getDesc());
         prodAmount = findViewById(R.id.amount_tag);
         prodAmount.setText(String.valueOf(order.getQuantity()));
         deliveryType = findViewById(R.id.del_type);
@@ -101,7 +109,7 @@ public class OrderDetails extends AppCompatActivity {
         deliveryTax.setText("Grátis");
         serviceTax = findViewById(R.id.tax_serv_value);
         double serviceTaxValue = 1.90;
-        serviceTax.setText("R$ " + serviceTaxValue);
+        serviceTax.setText("R$ " + pf.format(serviceTaxValue));
         totalValue = findViewById(R.id.total_value);
         order.setPrice(order.getSubtotal() + serviceTaxValue);
         totalValue.setText("R$ " + pf.format(order.getPrice()));
@@ -110,7 +118,8 @@ public class OrderDetails extends AppCompatActivity {
     }
 
     private void getSupplierData(){
-        supRef.child(order.getSupplierId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        System.out.println(order.getSupplierId());
+        supRef.child(supId).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,6 +135,7 @@ public class OrderDetails extends AppCompatActivity {
                 DecimalFormat df = new DecimalFormat("0.0");
                 supDistance = findViewById(R.id.distance);
                 supDistance.setText(df.format(distance) + "km");
+                getProd();
             }
 
             @Override
@@ -136,7 +146,6 @@ public class OrderDetails extends AppCompatActivity {
     }
 
     private void makeOrder() {
-
         if (!order.isScheduled()) {
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
@@ -148,12 +157,10 @@ public class OrderDetails extends AppCompatActivity {
 
         String orderUid = FirebaseDatabase.getInstance().getReference().push().getKey();
 
-        userId = order.getUserId();
         order.setUserId(null);
 
         userRef.child(userId).child("Orders").child(orderUid).setValue(order);
 
-        supId = order.getSupplierId();
         order.setUserId(userId);
         order.setSupplierId(null);
 
@@ -167,5 +174,50 @@ public class OrderDetails extends AppCompatActivity {
     private void goOrders(){
         Intent i = new Intent(this, Orders.class);
         startActivity(i);
+    }
+
+    private void getUser(){
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userRef.child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot addressSnapshot : snapshot.child("Addresses").getChildren()) {
+                    userAddress = addressSnapshot.getValue(Address.class);
+                }
+                getSupplierData();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getProd(){
+        //System.out.println(userId);
+        //System.out.println(order.getProdId());
+        supRef.child(supId).child("Products").child(order.getProdId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                product = snapshot.getValue(Product.class);
+                prodName = findViewById(R.id.item_name);
+                prodDesc = findViewById(R.id.amount);
+                prodName.setText(product.getName());
+                prodDesc.setText(product.getDesc());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadImg(){
+        String location = order.getSupplierId()+"/products/"+order.getProdId();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
+        ImageView img = findViewById(R.id.product_pic);
+        Glide.with(img.getContext()).load(storageReference).into(img);
     }
 }

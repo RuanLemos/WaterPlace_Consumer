@@ -12,6 +12,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,10 +36,13 @@ import waterplace.finalproj.util.DistanceUtil;
 
 public class MainMenu extends AppCompatActivity {
 
-    User user = User.getInstance();
-    Address address = user.getAddresses().get(0);
+    User user;
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    Address address;
     List<SupplierDistance> supplierDistances = new ArrayList<>();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Suppliers");
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+    SearchView searchView;
     private BottomNavigationManager bottomNavigationManager;
 
     @Override
@@ -52,30 +56,30 @@ public class MainMenu extends AppCompatActivity {
         bottomNavigationManager = new BottomNavigationManager(this);
         bottomNavigationManager.setupBottomNavigation(bottomNavigationView);
 
-        fornecedoresProximos();
+        userRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    user = snapshot.getValue(User.class);
+                    for (DataSnapshot addressSnapshot : snapshot.child("Addresses").getChildren()) {
+                        address = addressSnapshot.getValue(Address.class);
+                    }
 
-        SearchView searchView = findViewById(R.id.searchView);
+                    fornecedoresProximos();
+                    searchView = findViewById(R.id.searchView);
+                    query();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         // Configurar o ouvinte de eventos para a SearchView
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Executar a consulta quando o usuário pressionar o botão de pesquisa
-                performSearch(query);
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.isEmpty()) {
-                    fornecedoresProximos();
-                } else {
-                    performSearch(newText);
-                };
-                return true;
-            }
-
-        });
     }
 
 
@@ -169,5 +173,27 @@ public class MainMenu extends AppCompatActivity {
         SupplierAdapter adapter = new SupplierAdapter(supplierDistances, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
+    }
+
+    public void query(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Executar a consulta quando o usuário pressionar o botão de pesquisa
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    fornecedoresProximos();
+                } else {
+                    performSearch(newText);
+                };
+                return true;
+            }
+
+        });
     }
 }
