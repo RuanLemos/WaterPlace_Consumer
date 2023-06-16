@@ -4,7 +4,10 @@ import static java.sql.DriverManager.println;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,14 +57,18 @@ public class RegisterEdit extends AppCompatActivity {
         String phonePattern = "^[0-9]{2} [0-9]{9}$";
         Pattern pattern = Pattern.compile(phonePattern);
         Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
-    }
 
-    public boolean verifyBdate(String bdayNumber){
-        String bdayPattern = "dd/MM/yyyy";
-        Pattern pattern = Pattern.compile(bdayPattern);
-        Matcher matcher = pattern.matcher(bdayNumber);
-        return matcher.matches();
+        if (matcher.matches()){
+            return true;
+        } else {
+            showError((EditText) findViewById(R.id.input_telefone), (TextView) findViewById(R.id.error_2));
+
+            return false;
+        }
+    }
+    public void showError(EditText inputField, TextView verificationText) {
+        inputField.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9494")));
+        verificationText.setVisibility(View.VISIBLE);
     }
 
     private void pushEdit() {
@@ -73,11 +80,11 @@ public class RegisterEdit extends AppCompatActivity {
         EditText Complemento = findViewById(R.id.input_comp);
         EditText cep = findViewById(R.id.input_cep2);
 
+        Toast.makeText(this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
-            println("uid: " + uid);
 
             user.setName(name.getText().toString());
             user.setPhone(phone.getText().toString());
@@ -130,23 +137,22 @@ public class RegisterEdit extends AppCompatActivity {
         DataNasc.setText(user.getBirthdate().toString());
 
         EditText Rua = findViewById(R.id.input_rua);
-        Rua.setText(user.getAddresses().get(0).getAvenue());
+        Rua.setText(address.getAvenue());
 
         EditText Numero = findViewById(R.id.input_num);
-        Numero.setText(Integer.toString(user.getAddresses().get(0).getNum()));
+        Numero.setText(Integer.toString(address.getNum()));
 
         EditText Complemento = findViewById(R.id.input_comp);
-        Complemento.setText(user.getAddresses().get(0).getComp());
+        Complemento.setText(address.getComp());
 
         EditText cep = findViewById(R.id.input_cep2);
-        cep.setText(Integer.toString(user.getAddresses().get(0).getCep()));
+        cep.setText(Integer.toString(address.getCep()));
 
         String telefone = phone.getText().toString();
-        String dataNasc = DataNasc.getText().toString();
 
         Button btnSalvar = findViewById(R.id.bt_reg_2);
         btnSalvar.setOnClickListener(v -> {
-            if (verifyPhone(telefone) && verifyBdate(dataNasc)){
+            if (verifyPhone(telefone)){
                 pushEdit();
             }
         });
