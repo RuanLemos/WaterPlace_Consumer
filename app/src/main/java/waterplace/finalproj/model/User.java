@@ -46,7 +46,7 @@ public class User {
         this.name = dataSnapshot.child("name").getValue().toString();
         this.phone = dataSnapshot.child("phone").getValue().toString();
         DatabaseReference addressesRef = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Addresses");
-
+        this.birthdate = dataSnapshot.child("birthdate").getValue(Date.class);
         addressesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
