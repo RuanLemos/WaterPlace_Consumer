@@ -95,7 +95,7 @@ public class OrderDetails extends AppCompatActivity {
         deliveryType = findViewById(R.id.del_type);
 
         if (order.isScheduled()) {
-            String deliveryDate = "Entrega agendada para " + order.getDeliveryDateTime();
+            String deliveryDate = order.getDeliveryDateTime();
             deliveryType.setText(deliveryDate);
         } else {
             deliveryType.setText("Entrega imediata");

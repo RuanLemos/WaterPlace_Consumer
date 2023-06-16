@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import waterplace.finalproj.R;
@@ -49,16 +50,17 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
 
         if (order.isScheduled()) {
-            holder.deliveryDesc.setText("Agendamento para " + order.getOrderDateTime());
+            holder.deliveryDesc.setText(order.getDeliveryDateTime());
         } else {
             holder.deliveryDesc.setText("Entrega imediata");
         }
 
-        holder.orderPrice.setText(String.valueOf(order.getPrice()));
+        DecimalFormat pf = new DecimalFormat("0.00");
+        holder.orderPrice.setText("R$ " + pf.format(order.getPrice()));
 
         if (order.getStatus().equals("Confirmado")) {
             if (order.isScheduled()) {
-                holder.orderStatus.setText("Agendado para " + order.getOrderDateTime());
+                holder.orderStatus.setText(order.getStatus());
             } else {
                 holder.orderStatus.setText("Aguardando entrega");
             }
