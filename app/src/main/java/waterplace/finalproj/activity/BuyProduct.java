@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
+
 import waterplace.finalproj.R;
+import waterplace.finalproj.dialog.ScheduleDeliveryDialog;
 import waterplace.finalproj.model.Address;
 import waterplace.finalproj.model.Product;
 import waterplace.finalproj.model.Order;
@@ -32,6 +37,7 @@ import waterplace.finalproj.model.Supplier;
 public class BuyProduct extends AppCompatActivity {
 
     private String uid;
+    private Order order = new Order();
     private String prodUid;
     private Product product;
     private Supplier supplier;
@@ -45,7 +51,7 @@ public class BuyProduct extends AppCompatActivity {
     private Address address;
     private String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userUid);
-
+    private Button schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +65,11 @@ public class BuyProduct extends AppCompatActivity {
         uid = intent.getStringExtra("uid");
         prodUid = intent.getStringExtra("prodId");
         btn_delivery = findViewById(R.id.delivery);
+        schedule = findViewById(R.id.schedule_delivery);
 
         updateUI();
+
+        schedule.setOnClickListener(v -> scheduleDelivery());
 
         btn_delivery.setOnClickListener(v -> makeOrder());
 
@@ -103,9 +112,10 @@ public class BuyProduct extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void updateFooter(){
+        DecimalFormat pf = new DecimalFormat("0.00");
         requestPrice = product.getPrice() * amount;
         prod_amount.setText(String.valueOf(amount));
-        prod_price.setText(getString(R.string.valor_r) + " " + requestPrice);
+        prod_price.setText(getString(R.string.valor_r) + " " + pf.format(requestPrice));
     }
 
     /*private void showProductImage(){
@@ -130,7 +140,6 @@ public class BuyProduct extends AppCompatActivity {
     }
 
     private void makeOrder() {
-        Order order = new Order();
         order.setUserId(userUid);
         order.setSupplierId(uid);
         order.setProdId(prodUid);
@@ -163,4 +172,16 @@ public class BuyProduct extends AppCompatActivity {
         ImageView img = findViewById(R.id.product_pic);
         Glide.with(img.getContext()).load(storageReference).into(img);
     }
+
+    public void scheduleDelivery() {
+        ScheduleDeliveryDialog dialog = new ScheduleDeliveryDialog();
+        dialog.setScheduleDeliveryListener(schedule -> {
+            // Atualize o order.setDeliveryDateTime com o texto completo do agendamento
+            makeOrder();
+            order.setDeliveryDateTime(schedule);
+            order.setScheduled(true);
+        });
+        dialog.show(getFragmentManager(), "ScheduleDeliveryDialog");
+    }
+
 }
