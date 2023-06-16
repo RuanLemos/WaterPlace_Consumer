@@ -1,5 +1,8 @@
 package waterplace.finalproj.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +19,20 @@ import com.google.firebase.storage.StorageReference;
 import java.util.List;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.activity.BuyProduct;
+import waterplace.finalproj.activity.SupplierMenu;
 import waterplace.finalproj.model.Product;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private List<Product> productList;
     private String supplierUid;
+    private Context context;
 
-    public ProductAdapter(List<Product> productList, String supplierUid) {
+    public ProductAdapter(List<Product> productList, String supplierUid, Context context) {
         this.productList = productList;
         this.supplierUid = supplierUid;
+        this.context = context;
     }
 
     @NonNull
@@ -35,6 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
@@ -43,12 +51,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
 
         holder.name.setText(product.getName());
-        holder.price.setText(String.valueOf(product.getPrice()));
+        holder.price.setText("R$ " + product.getPrice());
         holder.desc.setText(product.getDesc());
 
         Glide.with(holder.img.getContext())
                 .load(storageReference)
                 .into(holder.img);
+        holder.itemView.setOnClickListener(v -> onItemClick(supplierUid, product));
     }
 
     @Override
@@ -69,5 +78,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             desc = itemView.findViewById(R.id.txt_prod_desc);
             img = itemView.findViewById(R.id.img_prod);
         }
+    }
+
+    private void onItemClick(String uid, Product product){
+        Intent i = new Intent(context, BuyProduct.class);
+        i.putExtra("uid", uid);
+        i.putExtra("product", product);
+        i.putExtra("prodId", product.getUid());
+        context.startActivity(i);
     }
 }

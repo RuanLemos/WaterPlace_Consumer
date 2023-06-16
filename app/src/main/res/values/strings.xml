@@ -26,4 +26,5 @@
     <string name="TxtConfirm">Um e-mail para redefinir a sua senha foi enviado!</string>
     <string name="placeholder">Placeholder</string>
     <string name="title_activity_buy_product">BuyProduct</string>
+    <string name="valor_r">Valor: R$</string>
 </resources>

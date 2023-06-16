@@ -60,7 +60,6 @@ public class SupplierMenu extends AppCompatActivity {
                 if (snapshot.exists()) {
                     supplier = snapshot.getValue(Supplier.class);
                     makeProdList();
-                    setCapaImage();
                 }
             }
 
@@ -72,7 +71,7 @@ public class SupplierMenu extends AppCompatActivity {
     }
 
     private void setCapaImage() {
-        ImageView img_capa = findViewById(R.id.imagem_capa);
+        ImageView img_capa = findViewById(R.id.image_capa);
         ProgressBar progressBar = findViewById(R.id.progressBar);
         String location = uid+"/capa/image.jpg";
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
@@ -120,19 +119,22 @@ public class SupplierMenu extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
-            ImageView imageView = findViewById(R.id.imagem_capa);
+            ImageView imageView = findViewById(R.id.image_capa);
             imageView.setImageURI(selectedImageUri);
         }
     }
 
     private void updateUI(){
+        setCapaImage();
+
         // Nome do fornecedor
         TextView nome_supplier = findViewById(R.id.supplier_name);
         nome_supplier.setText(supplier.getName());
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_products);
-        ProductAdapter adapter = new ProductAdapter(products, uid);
+        ProductAdapter adapter = new ProductAdapter(products, uid, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
 }

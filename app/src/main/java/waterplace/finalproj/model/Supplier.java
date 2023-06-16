@@ -2,6 +2,7 @@ package waterplace.finalproj.model;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +12,14 @@ public class Supplier {
     private String phone;
     private Address address;
     private List<Product> products;
-    private String uid;
+    private double rating;
 
     // Cria um construtor com o padrão singleton
     private static Supplier instance;
 
-    // Construtor privado sem parâmetros para o padrão singleton
-    public Supplier(){}
+    public Supplier(){
+        this.rating = 0.0;
+    }
 
     // Construtor privado para o padrão singleton
 
@@ -28,9 +30,6 @@ public class Supplier {
         this.address = address;
     }
 
-    public String getUid(){
-        return uid;
-    }
     public String getName() {
         return name;
     }
@@ -64,5 +63,21 @@ public class Supplier {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public static Supplier getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Supplier instance) {
+        Supplier.instance = instance;
     }
 }
