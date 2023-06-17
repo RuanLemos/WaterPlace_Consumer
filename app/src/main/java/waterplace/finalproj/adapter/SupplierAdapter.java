@@ -46,7 +46,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         DecimalFormat df = new DecimalFormat("0.0");
 
         holder.txt_supplier_name.setText(supplier.getName());
-        holder.txt_supplier_category.setText("ainda nao tem nada");
+        holder.txt_supplier_category.setText("Apenas Galões");
         holder.txt_supplier_distance.setText(df.format(supDistance.getDistance()) + "km");
         holder.itemView.setOnClickListener(v -> onItemClick(uid));
     }
