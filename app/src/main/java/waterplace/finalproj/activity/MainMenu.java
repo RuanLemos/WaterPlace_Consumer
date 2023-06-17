@@ -43,8 +43,8 @@ public class MainMenu extends AppCompatActivity {
 
     User user;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    //String suid =
     Address address;
-
     List<Results> results = new ArrayList<>();
     List<SupplierDistance> supplierDistances = new ArrayList<>();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Suppliers");
@@ -131,6 +131,7 @@ public class MainMenu extends AppCompatActivity {
 
         String normaText = searchText.substring(0, 1).toUpperCase() + searchText.substring(1);
         // Executa a consulta no Firebase
+        //Query query = databaseReference.child(suid).child("Products")
         Query query = databaseReference.orderByChild("name")
                 .startAt(normaText)
                 .endAt(normaText + "\uf8ff");
@@ -140,6 +141,7 @@ public class MainMenu extends AppCompatActivity {
                 results.clear();
                 for (DataSnapshot resultSnapshot : dataSnapshot.getChildren()) {
                     Results result = resultSnapshot.getValue(Results.class);
+                    //result.setUid(dataSnapshot.child("Supplier"));
                     /*
                     if(result.getName() != null){
                         String supUid = resultSnapshot.getKey();

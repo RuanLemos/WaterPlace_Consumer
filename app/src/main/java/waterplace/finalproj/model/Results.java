@@ -2,23 +2,23 @@ package waterplace.finalproj.model;
 
 import java.io.Serializable;
 
-public class Results implements Serializable {
+public class Results extends Product implements Serializable  {
 
     private Product product;
-    private String uid;
+    private String suid;
     private String prodOwner;
 
     public Results(Product product, String uid){
         this.product = product;
-        this.uid = uid;
+        this.suid = suid;
     }
 
     public Product getProduct() { return product; }
 
-    public String getUid() { return uid; }
+    public String getUid() { return suid; }
 
     public void setUid(String uid) {
-        this.uid = uid;
+        this.suid = uid;
     }
 
 
