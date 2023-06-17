@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.JsonUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,16 +24,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.adapter.ResultsAdapter;
 import waterplace.finalproj.adapter.SupplierAdapter;
-import waterplace.finalproj.listener.UserListener;
 import waterplace.finalproj.model.Address;
+import waterplace.finalproj.model.Product;
 import waterplace.finalproj.model.Supplier;
 import waterplace.finalproj.model.SupplierDistance;
+import waterplace.finalproj.model.Results;
 import waterplace.finalproj.model.User;
 import waterplace.finalproj.util.BottomNavigationManager;
 import waterplace.finalproj.util.DistanceUtil;
@@ -38,7 +43,9 @@ public class MainMenu extends AppCompatActivity {
 
     User user;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    //String suid =
     Address address;
+    List<Results> results = new ArrayList<>();
     List<SupplierDistance> supplierDistances = new ArrayList<>();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Suppliers");
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
@@ -76,9 +83,6 @@ public class MainMenu extends AppCompatActivity {
 
             }
         });
-
-
-        // Configurar o ouvinte de eventos para a SearchView
 
     }
 
@@ -120,50 +124,42 @@ public class MainMenu extends AppCompatActivity {
         });
     }
 
-    private void performSearch(String searchText) {
-        // Limpar a pesquisa se o texto estiver vazio
+    private void Search(String searchText) {
         if (TextUtils.isEmpty(searchText)) {
-            // Limpar os resultados anteriores
-            // Atualizar a interface do usuário com os resultados da pesquisa
             return;
         }
 
-        // Executar a consulta no Firebase Realtime Database
-        Query query = databaseReference.orderByChild("name").equalTo(searchText);
+        String normaText = searchText.substring(0, 1).toUpperCase() + searchText.substring(1);
+        // Executa a consulta no Firebase
+        //Query query = databaseReference.child(suid).child("Products")
+        Query query = databaseReference.orderByChild("name")
+                .startAt(normaText)
+                .endAt(normaText + "\uf8ff");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Limpar os resultados anteriores
-                supplierDistances.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Supplier supplier = snapshot.getValue(Supplier.class);
-                    assert supplier != null;
-                    supplier.setAddress(snapshot.child("Address").getValue(Address.class));
-                    double distance;
-
-                    if (supplier.getAddress() != null) {
-                        distance = DistanceUtil.calcDistance(address.getLatitude(), address.getLongitude(), supplier.getAddress().getLatitude(), supplier.getAddress().getLongitude());
-
-                        //System.out.println(supplier.getName());
-                        //System.out.println(df.format(distance));
-                        //System.out.println("AWAWAWAAWAWAWA");
-
-                        //limite padrão para filtrar é 20km de distância
-                        if (distance <= 20.0) {
-                            String supUid = snapshot.getKey();
-                            SupplierDistance supDistance = new SupplierDistance(supplier, distance, supUid);
-                            supplierDistances.add(supDistance);
-                        }
+                results.clear();
+                for (DataSnapshot resultSnapshot : dataSnapshot.getChildren()) {
+                    Results result = resultSnapshot.getValue(Results.class);
+                    //result.setUid(dataSnapshot.child("Supplier"));
+                    /*
+                    if(result.getName() != null){
+                        String supUid = resultSnapshot.getKey();
+                        Results resultshow = new Results(result,supUid);
+                        results.add(resultshow);
+                    }else{
+                    TextView errorTextView = findViewById(R.id.error_noresult);
+                    errorTextView.setVisibility(View.VISIBLE);
                     }
-
+                     */
                 }
-                listSuppliers();
+                listResults();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Lidar com erros de consulta
-                Toast.makeText(MainMenu.this, "Erro na consulta: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                TextView errorTextView = findViewById(R.id.error_noresult);
+                errorTextView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -175,12 +171,20 @@ public class MainMenu extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
     }
 
+    public void listResults() {
+        System.out.println("Entrou no list");
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+//        ResultsAdapter adapter = new ResultsAdapter(results,this);
+//        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
+    }
+
     public void query(){
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Executar a consulta quando o usuário pressionar o botão de pesquisa
-                performSearch(query);
+                Search(query);
                 return true;
             }
 
@@ -189,7 +193,7 @@ public class MainMenu extends AppCompatActivity {
                 if (newText.isEmpty()) {
                     fornecedoresProximos();
                 } else {
-                    performSearch(newText);
+                    Search(newText);
                 };
                 return true;
             }
