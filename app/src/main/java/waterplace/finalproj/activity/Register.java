@@ -192,8 +192,6 @@ public class Register extends AppCompatActivity{
                             throw new RuntimeException(e);
                         }
 
-                        //Gera um UID para o endereço dentro do documento do usuário
-                        String addressUid = usersRef.child(uid).child("Addresses").push().getKey();
 
                         double[] coords = AddressUtil.geocode(address.getAvenue() + " " + address.getNum());
                         if (coords != null) {
@@ -205,7 +203,7 @@ public class Register extends AppCompatActivity{
                         usersRef.child(uid).setValue(user)
                                 .addOnCompleteListener(saveTask -> {
                                     if (saveTask.isSuccessful()) {
-                                        usersRef.child(uid).child("Addresses").child(addressUid).setValue(address);
+                                        usersRef.child(uid).child("Address").setValue(address);
                                         Toast.makeText(Register.this, "Cadastrado realizado com sucesso", Toast.LENGTH_SHORT).show();
                                         goLogin();
                                     } else {
