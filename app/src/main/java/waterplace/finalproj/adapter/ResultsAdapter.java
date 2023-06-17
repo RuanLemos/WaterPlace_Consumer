@@ -22,15 +22,17 @@ import waterplace.finalproj.R;
 import waterplace.finalproj.activity.BuyProduct;
 import waterplace.finalproj.model.Product;
 import waterplace.finalproj.model.Results;
+import waterplace.finalproj.model.Supplier;
+import waterplace.finalproj.model.SupplierDistance;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultViewHolder>{
 
-    private List<Product> productList;
+    private List<Results> resultList;
     private String supplierUid;
     private Context context;
 
-    public ResultsAdapter(List<Product> productList, Context context) {
-        this.productList = productList;
+    public ResultsAdapter(List<Results> resultList, Context context) {
+        this.resultList = resultList;
         this.supplierUid = supplierUid;
         this.context = context;
     }
@@ -45,12 +47,19 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultVi
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
-        Product product = productList.get(position);
+        Results result = resultList.get(position);
+        SupplierDistance supplierDistance = result.getSupplier();
+        Supplier supplier = supplierDistance.getSupplier();
+        Product product = supplier.getProducts().get(position);
+        System.out.println("teste" + product.getUid() + " " + product.getName());
+        // Product product = productList.get(position);
         String location = supplierUid+"/products/"+product.getUid();
         // Reference to an image file in Cloud Storage
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
 
+        System.out.println(product.getName());
         holder.name.setText(product.getName());
+        System.out.println(position);
         holder.price.setText("R$ " + product.getPrice());
         //holder.prodOwner.setText(product.getProdOwner());
 
@@ -62,7 +71,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultVi
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return resultList.size();
     }
 
     public class ResultViewHolder extends RecyclerView.ViewHolder {

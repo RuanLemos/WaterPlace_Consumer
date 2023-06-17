@@ -2,6 +2,7 @@ package waterplace.finalproj.activity;
 
 import static java.sql.DriverManager.println;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.ColorStateList;
@@ -17,9 +18,13 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
@@ -66,6 +71,7 @@ public class RegisterEdit extends AppCompatActivity {
             return false;
         }
     }
+
     public void showError(EditText inputField, TextView verificationText) {
         inputField.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9494")));
         verificationText.setVisibility(View.VISIBLE);
@@ -74,7 +80,6 @@ public class RegisterEdit extends AppCompatActivity {
     private void pushEdit() {
         EditText name = findViewById(R.id.input_nome);
         EditText phone = findViewById(R.id.input_telefone);
-        String userBirthdate = ((EditText)findViewById(R.id.input_date)).getText().toString();
         EditText Rua = findViewById(R.id.input_rua);
         EditText Numero = findViewById(R.id.input_num);
         EditText Complemento = findViewById(R.id.input_comp);
@@ -88,11 +93,6 @@ public class RegisterEdit extends AppCompatActivity {
 
             user.setName(name.getText().toString());
             user.setPhone(phone.getText().toString());
-            try {
-                user.setBirthdate(new SimpleDateFormat("dd/MM/yy").parse(userBirthdate));
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
             address.setAvenue(Rua.getText().toString());
             address.setNum(Integer.parseInt(Numero.getText().toString()));
             address.setComp(Complemento.getText().toString());
@@ -103,26 +103,35 @@ public class RegisterEdit extends AppCompatActivity {
             address.setLatitude(latlong[0]);
             address.setLongitude(latlong[1]);
 
-            //Gera um UID para o endereço dentro do documento do usuário
-            String addressUid = usersRef.child(uid).child("Addresses").push().getKey();
-
             double[] coords = AddressUtil.geocode(address.getAvenue() + " " + address.getNum());
             if (coords != null) {
                 address.setLatitude(coords[0]);
                 address.setLongitude(coords[1]);
             }
-
+            user.setAddresses(null);
             // Salva o usuário com o UID como identificador do documento
-            usersRef.child(uid).setValue(user)
+            /*usersRef.child(uid).setValue(user)
                 .addOnCompleteListener(saveTask -> {
                     if (saveTask.isSuccessful()) {
-                        usersRef.child(uid).child("Addresses").child(addressUid).setValue(address);
+                        System.out.println("ENTRANDO NA TOCA DO DIABO");
+                        usersRef.child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String addressUid = usersRef.child(uid).child("Addresses").push().getKey();
+                                usersRef.child(uid).child("Addresses").child(addressUid).setValue(address);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Trate o erro de acordo com sua necessidade
+                            }
+                        });
                         Toast.makeText(this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
                     } else {
                         Exception e = saveTask.getException();
                         Toast.makeText(this, "bugo!", Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
         }
     }
 
