@@ -118,19 +118,6 @@ public class BuyProduct extends AppCompatActivity {
         prod_price.setText(getString(R.string.valor_r) + " " + pf.format(requestPrice));
     }
 
-    /*private void showProductImage(){
-        String location = uid+"/products/"+product.getUid();
-        // Reference to an image file in Cloud Storage
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(location);
-        storageReference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-            @Override
-            public void onSuccess(StorageMetadata storageMetadata) {
-                Glide.with(BuyProduct.this)
-                        .load(storageReference)
-                        .into(img_capa);
-            }
-    }*/
-
     private void goOrder(Order order) {
         Intent i = new Intent(this, OrderDetails.class);
         i.putExtra("product", product);
@@ -176,12 +163,10 @@ public class BuyProduct extends AppCompatActivity {
     public void scheduleDelivery() {
         ScheduleDeliveryDialog dialog = new ScheduleDeliveryDialog();
         dialog.setScheduleDeliveryListener(schedule -> {
-            // Atualize o order.setDeliveryDateTime com o texto completo do agendamento
             makeOrder();
             order.setDeliveryDateTime(schedule);
             order.setScheduled(true);
         });
         dialog.show(getFragmentManager(), "ScheduleDeliveryDialog");
     }
-
 }
