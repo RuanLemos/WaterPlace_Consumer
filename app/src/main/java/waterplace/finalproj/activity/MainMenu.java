@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.JsonUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -82,9 +84,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-
-        // Configurar o ouvinte de eventos para a SearchView
-
     }
 
 
@@ -131,18 +130,26 @@ public class MainMenu extends AppCompatActivity {
         }
 
         String normaText = searchText.substring(0, 1).toUpperCase() + searchText.substring(1);
-
-        // Executar a consulta no Firebase Realtime Database
+        // Executa a consulta no Firebase
         Query query = databaseReference.orderByChild("name")
                 .startAt(normaText)
                 .endAt(normaText + "\uf8ff");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Limpar os resultados anteriores
                 results.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Product product = snapshot.getValue(Product.class);
+                for (DataSnapshot resultSnapshot : dataSnapshot.getChildren()) {
+                    Results result = resultSnapshot.getValue(Results.class);
+                    /*
+                    if(result.getName() != null){
+                        String supUid = resultSnapshot.getKey();
+                        Results resultshow = new Results(result,supUid);
+                        results.add(resultshow);
+                    }else{
+                    TextView errorTextView = findViewById(R.id.error_noresult);
+                    errorTextView.setVisibility(View.VISIBLE);
+                    }
+                     */
                 }
                 listResults();
             }
@@ -163,9 +170,10 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void listResults() {
+        System.out.println("Entrou no list");
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        //ResultsAdapter adapter = new ResultsAdapter(results, this);
-        //recyclerView.setAdapter(adapter);
+//        ResultsAdapter adapter = new ResultsAdapter(results,this);
+//        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
     }
 
