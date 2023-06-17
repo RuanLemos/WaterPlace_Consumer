@@ -192,6 +192,10 @@ public class MainMenu extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
                     fornecedoresProximos();
+                    if(supplierDistances.isEmpty()){
+                        TextView errorTextView = findViewById(R.id.error_noresult);
+                        errorTextView.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Search(newText);
                 };
