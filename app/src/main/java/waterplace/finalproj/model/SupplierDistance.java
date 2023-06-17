@@ -15,6 +15,10 @@ public class SupplierDistance {
         return supplier;
     }
 
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
     public double getDistance() {
         return distance;
     }

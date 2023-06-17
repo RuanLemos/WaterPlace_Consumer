@@ -70,6 +70,7 @@ public class MainMenu extends AppCompatActivity {
                     user = snapshot.getValue(User.class);
                     for (DataSnapshot addressSnapshot : snapshot.child("Addresses").getChildren()) {
                         address = addressSnapshot.getValue(Address.class);
+                        System.out.println("awawawwa"+addressSnapshot.getKey());
                     }
 
                     fornecedoresProximos();
@@ -100,6 +101,8 @@ public class MainMenu extends AppCompatActivity {
                     supplier.setAddress(supplierSnapshot.child("Address").getValue(Address.class));
                     double distance;
 
+                    System.out.println("testezinho fellas: " + address.getAvenue());
+
                     if (supplier.getAddress() != null) {
                         distance = DistanceUtil.calcDistance(address.getLatitude(), address.getLongitude(), supplier.getAddress().getLatitude(), supplier.getAddress().getLongitude());
 
@@ -124,44 +127,64 @@ public class MainMenu extends AppCompatActivity {
         });
     }
 
-    private void Search(String searchText) {
+    private void search(String searchText) {
         if (TextUtils.isEmpty(searchText)) {
             return;
         }
 
         String normaText = searchText.substring(0, 1).toUpperCase() + searchText.substring(1);
-        // Executa a consulta no Firebase
-        //Query query = databaseReference.child(suid).child("Products")
-        Query query = databaseReference.orderByChild("name")
-                .startAt(normaText)
-                .endAt(normaText + "\uf8ff");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                results.clear();
-                for (DataSnapshot resultSnapshot : dataSnapshot.getChildren()) {
-                    Results result = resultSnapshot.getValue(Results.class);
-                    //result.setUid(dataSnapshot.child("Supplier"));
-                    /*
-                    if(result.getName() != null){
-                        String supUid = resultSnapshot.getKey();
-                        Results resultshow = new Results(result,supUid);
-                        results.add(resultshow);
-                    }else{
-                    TextView errorTextView = findViewById(R.id.error_noresult);
-                    errorTextView.setVisibility(View.VISIBLE);
-                    }
-                     */
-                }
-                listResults();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                TextView errorTextView = findViewById(R.id.error_noresult);
-                errorTextView.setVisibility(View.VISIBLE);
-            }
-        });
+        String currentSupId;
+        DatabaseReference prodRef;
+
+        for (SupplierDistance supDistance : supplierDistances) {
+            currentSupId = supDistance.getUid();
+            prodRef = databaseReference.child(currentSupId).child("Products");
+
+            DatabaseReference finalProdRef = prodRef;
+            String finalCurrentSupId = currentSupId;
+            Supplier currentSup = supDistance.getSupplier();
+            String finalCurrentSupId1 = currentSupId;
+            prodRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot prodSnapshot : snapshot.getChildren()) {
+                        List<Product> prodList = new ArrayList<>();
+                        System.out.println(prodSnapshot.getKey());
+                        Product product = prodSnapshot.getValue(Product.class);
+                        System.out.println("nome do produto " + product.getName());
+                        System.out.println();
+                        Query query = finalProdRef.child(prodSnapshot.getKey())
+                                .orderByChild("name")
+                                .startAt(normaText)
+                                .endAt(normaText + "\uf8ff");
+
+                        query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                prodList.add(product);
+                                System.out.println("uepa");
+                                currentSup.setProducts(prodList);
+                                System.out.println("testezin " + currentSup.getProducts().size());
+                                supDistance.setSupplier(currentSup);
+                                Results result = new Results(supDistance, finalCurrentSupId1);
+                                results.add(result);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Tratar o erro, se necessário
+                            }
+                        });
+                    }
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Tratar o erro, se necessário
+                }
+            });
+        }
     }
 
     public void listSuppliers() {
@@ -174,8 +197,8 @@ public class MainMenu extends AppCompatActivity {
     public void listResults() {
         System.out.println("Entrou no list");
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-//        ResultsAdapter adapter = new ResultsAdapter(results,this);
-//        recyclerView.setAdapter(adapter);
+        ResultsAdapter adapter = new ResultsAdapter(results,this);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainMenu.this));
     }
 
@@ -184,7 +207,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Executar a consulta quando o usuário pressionar o botão de pesquisa
-                Search(query);
+                search(query);
                 return true;
             }
 
@@ -197,7 +220,7 @@ public class MainMenu extends AppCompatActivity {
                         errorTextView.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    Search(newText);
+                    search(newText);
                 };
                 return true;
             }

@@ -4,27 +4,29 @@ import java.io.Serializable;
 
 public class Results extends Product implements Serializable  {
 
-    private Product product;
-    private String suid;
-    private String prodOwner;
+    private SupplierDistance supplierDistance;
+    private String supId;
 
-    public Results(Product product, String uid){
-        this.product = product;
-        this.suid = suid;
+    public Results(SupplierDistance supplier, String supId) {
+        this.supplierDistance = supplier;
+        this.supId = supId;
     }
 
-    public Product getProduct() { return product; }
-
-    public String getUid() { return suid; }
-
-    public void setUid(String uid) {
-        this.suid = uid;
+    public SupplierDistance getSupplier() {
+        return supplierDistance;
     }
 
+    public void setSupplier(SupplierDistance supplier) {
+        this.supplierDistance = supplier;
+    }
 
-    public String getProdOwner() { return prodOwner; }
+    public String getSupId() {
+        return supId;
+    }
 
-    public void setProdOwner(String prodOwner) { this.prodOwner = prodOwner; }
+    public void setSupId(String supId) {
+        this.supId = supId;
+    }
 }
 
 
