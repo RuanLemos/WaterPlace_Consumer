@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import waterplace.finalproj.R;
 import waterplace.finalproj.activity.MainMenu;
 import waterplace.finalproj.activity.Orders;
-import waterplace.finalproj.activity.RegisterEdit;
+import waterplace.finalproj.activity.EditProfile;
 
 public class BottomNavigationManager implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -35,7 +35,7 @@ public class BottomNavigationManager implements BottomNavigationView.OnNavigatio
                 startActivity(Orders.class);
                 return true;
             case R.id.conta:
-                startActivity(RegisterEdit.class);
+                startActivity(EditProfile.class);
                 return true;
         }
         return false;

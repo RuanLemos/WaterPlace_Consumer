@@ -1,7 +1,5 @@
 package waterplace.finalproj.activity;
 
-import static java.sql.DriverManager.println;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.ColorStateList;
@@ -31,7 +29,7 @@ import waterplace.finalproj.model.User;
 import waterplace.finalproj.util.AddressUtil;
 import waterplace.finalproj.util.BottomNavigationManager;
 
-public class RegisterEdit extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity {
     private User user = User.getInstance();
     private Address address = user.getAddresses().get(0);
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -43,7 +41,7 @@ public class RegisterEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_register_edit);
+        setContentView(R.layout.activity_edit_profile);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.menu_footer);
         bottomNavigationView.setSelectedItemId(R.id.conta);
