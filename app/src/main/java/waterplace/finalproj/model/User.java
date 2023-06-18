@@ -31,7 +31,7 @@ public class User {
         this.phone = dataSnapshot.child("phone").getValue().toString();
         DatabaseReference addressesRef = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Addresses");
         this.birthdate = dataSnapshot.child("birthdate").getValue(Date.class);
-        this.address = dataSnapshot.child("Address").getValue(Address.class);
+        this.address = dataSnapshot.child("address").getValue(Address.class);
     }
 
     public static User getInstance() {

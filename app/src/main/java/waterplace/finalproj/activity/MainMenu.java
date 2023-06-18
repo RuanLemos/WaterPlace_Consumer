@@ -68,7 +68,7 @@ public class MainMenu extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     user = snapshot.getValue(User.class);
-                    address = snapshot.child("Address").getValue(Address.class);
+                    address = snapshot.child("address").getValue(Address.class);
                     fornecedoresProximos();
                     searchView = findViewById(R.id.searchView);
                     query();

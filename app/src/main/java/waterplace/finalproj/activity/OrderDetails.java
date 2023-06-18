@@ -181,9 +181,9 @@ public class OrderDetails extends AppCompatActivity {
         userRef.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot addressSnapshot : snapshot.child("Addresses").getChildren()) {
-                    userAddress = addressSnapshot.getValue(Address.class);
-                }
+                //for (DataSnapshot addressSnapshot : snapshot.child("Addresses").getChildren()) {
+                userAddress = snapshot.child("address").getValue(Address.class);
+                //}
                 getSupplierData();
             }
 

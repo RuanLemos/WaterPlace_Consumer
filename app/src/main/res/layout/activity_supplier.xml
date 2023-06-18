@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainMenu"
-    tools:layout_editor_absoluteX="112dp"
-    tools:layout_editor_absoluteY="42dp">
+    tools:context=".activity.MainMenu">
 
     <com.google.android.material.chip.Chip
         android:id="@+id/ligacoes"
