@@ -21,56 +21,17 @@ public class User {
     private String name;
     private String phone;
     private Date birthdate;
-    private List<Address> addresses;
-
-    private List<String> requests;
+    private Address address;
     private static User instance;
-    private static UserListener listener;
-    public List<String> getRequests() {
-        return requests;
-    }
-
-    public static void setListener(UserListener listener){
-        User.listener = listener;
-    }
-
-
-    public void setRequests(List<String> requests) {
-        this.requests = requests;
-    }
 
     public User() {}
 
     private User(DataSnapshot dataSnapshot, String uid) {
-        this.addresses = new ArrayList<>();
         this.name = dataSnapshot.child("name").getValue().toString();
         this.phone = dataSnapshot.child("phone").getValue().toString();
         DatabaseReference addressesRef = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Addresses");
         this.birthdate = dataSnapshot.child("birthdate").getValue(Date.class);
-        addressesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
-                    Address address = addressSnapshot.getValue(Address.class);
-                    System.out.println(address.getLatitude());
-                    addresses.add(address);
-                }
-                if (listener != null) {
-                    System.out.println("FILHA DA PUTAAAA");
-                    listener.onDataLoaded(instance);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("puts", "deu merda");
-            }
-        });
-
-        System.out.println("testehfxkjcnvj");
-
-        //GenericTypeIndicator<ArrayList<Address>> addressesType = new GenericTypeIndicator<ArrayList<Address>>() {};
-        //this.addresses = dataSnapshot.child("Addresses").getValue(addressesType);
+        this.address = dataSnapshot.child("Address").getValue(Address.class);
     }
 
     public static User getInstance() {
@@ -106,11 +67,11 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

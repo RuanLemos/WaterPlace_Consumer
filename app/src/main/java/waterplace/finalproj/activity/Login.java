@@ -92,11 +92,8 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()) {
-                                User.setListener(user1 -> {
-                                    goMenu();
-                                });
-
                                 User.setInstance(snapshot, uid);
+                                goMenu();
                             } else {
                                 Toast.makeText(Login.this, "Conta inválida para esta aplicação", Toast.LENGTH_SHORT).show();
                             }

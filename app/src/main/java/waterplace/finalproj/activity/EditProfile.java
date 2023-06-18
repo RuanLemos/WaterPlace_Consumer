@@ -1,5 +1,6 @@
 package waterplace.finalproj.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.ColorStateList;
@@ -35,9 +36,10 @@ import waterplace.finalproj.util.BottomNavigationManager;
 
 public class EditProfile extends AppCompatActivity {
     private User user = User.getInstance();
-    private Address address = user.getAddresses().get(0);
+    private Address address = user.getAddress();
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    private DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");;
+    private DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+    private String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     private BottomNavigationManager bottomNavigationManager;
     @Override
@@ -73,7 +75,6 @@ public class EditProfile extends AppCompatActivity {
         inputField.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9494")));
         verificationText.setVisibility(View.VISIBLE);
     }
-
     private void pushEdit() {
         EditText name = findViewById(R.id.input_nome);
         EditText phone = findViewById(R.id.input_telefone);
@@ -95,6 +96,7 @@ public class EditProfile extends AppCompatActivity {
             address.setComp(Complemento.getText().toString());
             address.setCep(Integer.parseInt(cep.getText().toString()));
 
+            // R. Felipe de Oliveira, 1141 - Petrópolis, Porto Alegre - RS, 90630-000
             String urlAddress = address.getAvenue() + " " + address.getCity() + " " + address.getCep();
             double[] latlong = AddressUtil.geocode(urlAddress);
             address.setLatitude(latlong[0]);
@@ -105,17 +107,18 @@ public class EditProfile extends AppCompatActivity {
                 address.setLatitude(coords[0]);
                 address.setLongitude(coords[1]);
             }
-            user.setAddresses(null);
+
+            user.setAddress(address);
+
             // Salva o usuário com o UID como identificador do documento
-            /*usersRef.child(uid).setValue(user)
+            usersRef.child(uid).setValue(user)
                 .addOnCompleteListener(saveTask -> {
                     if (saveTask.isSuccessful()) {
                         System.out.println("ENTRANDO NA TOCA DO DIABO");
                         usersRef.child(uid).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String addressUid = usersRef.child(uid).child("Addresses").push().getKey();
-                                usersRef.child(uid).child("Addresses").child(addressUid).setValue(address);
+                                usersRef.child(uid).child("Address").setValue(address);
                             }
 
                             @Override
@@ -128,7 +131,7 @@ public class EditProfile extends AppCompatActivity {
                         Exception e = saveTask.getException();
                         Toast.makeText(this, "bugo!", Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
         }
     }
 
