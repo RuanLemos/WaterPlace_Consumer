@@ -78,9 +78,9 @@ public class EditProfile extends AppCompatActivity {
     private void pushEdit() {
         EditText name = findViewById(R.id.input_nome);
         EditText phone = findViewById(R.id.input_telefone);
-        EditText Rua = findViewById(R.id.input_rua);
-        EditText Numero = findViewById(R.id.input_num);
-        EditText Complemento = findViewById(R.id.input_comp);
+        EditText rua = findViewById(R.id.input_rua);
+        EditText numero = findViewById(R.id.input_num);
+        EditText complemento = findViewById(R.id.input_comp);
         EditText cep = findViewById(R.id.input_cep2);
 
         Toast.makeText(this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
@@ -91,9 +91,12 @@ public class EditProfile extends AppCompatActivity {
 
             user.setName(name.getText().toString());
             user.setPhone(phone.getText().toString());
-            address.setAvenue(Rua.getText().toString());
-            address.setNum(Integer.parseInt(Numero.getText().toString()));
-            address.setComp(Complemento.getText().toString());
+            address = AddressUtil.getAddressInfo(Integer.parseInt(cep.getText().toString()));
+            rua.setText(address.getAvenue());
+
+            //address.setAvenue(Rua.getText().toString());
+            address.setNum(Integer.parseInt(numero.getText().toString()));
+            address.setComp(complemento.getText().toString());
             address.setCep(Integer.parseInt(cep.getText().toString()));
 
             // R. Felipe de Oliveira, 1141 - Petrópolis, Porto Alegre - RS, 90630-000
@@ -115,17 +118,6 @@ public class EditProfile extends AppCompatActivity {
                 .addOnCompleteListener(saveTask -> {
                     if (saveTask.isSuccessful()) {
                         System.out.println("ENTRANDO NA TOCA DO DIABO");
-                        usersRef.child(uid).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                usersRef.child(uid).child("Address").setValue(address);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                // Trate o erro de acordo com sua necessidade
-                            }
-                        });
                         Toast.makeText(this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
                     } else {
                         Exception e = saveTask.getException();

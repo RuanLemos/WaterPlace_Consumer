@@ -134,17 +134,17 @@ public class BuyProduct extends AppCompatActivity {
         order.setSubtotal(requestPrice);
         order.setQuantity(amount);
 
-        userRef.child("Addresses").addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.child("address").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
-                    address = addressSnapshot.getValue(Address.class);
+                //for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
+                    address = snapshot.getValue(Address.class);
                     String addressFormat = address.getAvenue() + ", " + address.getNum() + " - " + address.getComp()
                             + "\n" + address.getDistrict() + " - " + address.getCity();
                     order.setAddress(addressFormat);
                     System.out.println("Ó O ENDEREÇOOO " + address.getAvenue());
                     goOrder(order);
-                }
+                //}
             }
 
             @Override

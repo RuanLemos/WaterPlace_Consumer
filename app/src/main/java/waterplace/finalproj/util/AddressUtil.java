@@ -48,8 +48,6 @@ public class AddressUtil {
                         return true;
                     }
                 } else {
-                    // Erro na request
-                    // Trate o caso de falha na conexão, se necessário
                     return false;
                 }
             });

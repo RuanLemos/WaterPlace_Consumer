@@ -199,11 +199,12 @@ public class Register extends AppCompatActivity{
                             address.setLongitude(coords[1]);
                         }
 
+                        user.setAddress(address);
                         // Salva o usuário com o UID como identificador do documento
                         usersRef.child(uid).setValue(user)
                                 .addOnCompleteListener(saveTask -> {
                                     if (saveTask.isSuccessful()) {
-                                        usersRef.child(uid).child("Address").setValue(address);
+                                        //usersRef.child(uid).child("address").setValue(user.getAddress());
                                         Toast.makeText(Register.this, "Cadastrado realizado com sucesso", Toast.LENGTH_SHORT).show();
                                         goLogin();
                                     } else {
