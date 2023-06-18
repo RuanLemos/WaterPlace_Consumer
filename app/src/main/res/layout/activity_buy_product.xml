@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.BuyProduct">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/back_arrow_c_2"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -36,6 +36,114 @@
             app:srcCompat="@android:drawable/stat_sys_download" />
 
     </FrameLayout>
+
+    <View
+        android:id="@+id/view_sup"
+        android:layout_width="270dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/square_border"
+        android:padding="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_desc" />
+
+    <ImageView
+        android:id="@+id/icone_3"
+        android:layout_width="54dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="200dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toTopOf="@+id/view_sup"
+        app:srcCompat="@drawable/lojinha" />
+
+    <TextView
+        android:id="@+id/supplier_name_3"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Nome do fornecedor"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toTopOf="@+id/view_sup" />
+
+    <TextView
+        android:id="@+id/nota_3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="74dp"
+        android:text="5.0"
+        android:textColor="#fce603"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name_3" />
+
+    <ImageView
+        android:id="@+id/star_2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="120dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name_3"
+        app:srcCompat="@drawable/star" />
+
+    <ImageView
+        android:id="@+id/dot_2"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name_3"
+        app:srcCompat="@drawable/dot" />
+
+    <TextView
+        android:id="@+id/supplier_category"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="7dp"
+        android:text="Apenas Galões"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name_3" />
+
+    <ImageView
+        android:id="@+id/dot_3"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginStart="190dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name_3"
+        app:srcCompat="@drawable/dot" />
+
+    <TextView
+        android:id="@+id/distance_2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="210dp"
+        android:layout_marginTop="7dp"
+        android:text="0,0km"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_sup"
+        app:layout_constraintStart_toStartOf="@+id/view_sup"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name_3" />
 
     <TextView
         android:id="@+id/product_name"

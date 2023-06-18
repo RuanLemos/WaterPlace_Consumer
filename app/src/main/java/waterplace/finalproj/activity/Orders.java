@@ -53,6 +53,11 @@ public class Orders extends AppCompatActivity {
         getOrders();
     }
 
+    @Override
+    public void onBackPressed() {
+        //Desabilita a seta
+    }
+
     private void getOrders() {
         userRef.child(userUid).child("Orders").addValueEventListener(new ValueEventListener() {
             @Override
