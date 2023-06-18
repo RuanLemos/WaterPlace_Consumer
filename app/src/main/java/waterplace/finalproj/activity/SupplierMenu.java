@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,9 @@ public class SupplierMenu extends AppCompatActivity {
     private ImageButton back_arrow;
     private List<Product> products = new ArrayList<>();
     private DatabaseReference supplierRef;
+    private double distance;
+    private TextView ratingValue;
+    private RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +59,15 @@ public class SupplierMenu extends AppCompatActivity {
         setContentView(R.layout.activity_supplier);
 
         back_arrow = (ImageButton) findViewById(R.id.back_arrow_c);
+        ratingValue = findViewById(R.id.nota);
+        rating = findViewById(R.id.ratingBar);
 
         back_arrow.setOnClickListener(v -> goBack());
 
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
+        distance = Double.parseDouble(intent.getStringExtra("distance"));
+        //distance = Double.parseDouble(intent.getStringExtra("distance"));
         supplierRef = FirebaseDatabase.getInstance().getReference("Suppliers").child(uid);
         supplierRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -146,9 +155,17 @@ public class SupplierMenu extends AppCompatActivity {
         // Nome do fornecedor
         TextView nome_supplier = findViewById(R.id.supplier_name);
         nome_supplier.setText(supplier.getName());
+        DecimalFormat df = new DecimalFormat("0.0");
+        if (supplier.getRating() != 0.0) {
+            ratingValue.setText(df.format(supplier.getRating()));
+            rating.setRating((float) supplier.getRating());
+        } else {
+            ratingValue.setText("Sem avaliações.");
+            rating.setVisibility(View.GONE);
+        }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_products);
-        ProductAdapter adapter = new ProductAdapter(products, uid, this);
+        ProductAdapter adapter = new ProductAdapter(products, uid, this, supplier, distance);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

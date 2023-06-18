@@ -22,17 +22,22 @@ import waterplace.finalproj.R;
 import waterplace.finalproj.activity.BuyProduct;
 import waterplace.finalproj.activity.SupplierMenu;
 import waterplace.finalproj.model.Product;
+import waterplace.finalproj.model.Supplier;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private List<Product> productList;
     private String supplierUid;
     private Context context;
+    private Supplier supplier;
+    private double distance;
 
-    public ProductAdapter(List<Product> productList, String supplierUid, Context context) {
+    public ProductAdapter(List<Product> productList, String supplierUid, Context context, Supplier supplier, double distance) {
         this.productList = productList;
         this.supplierUid = supplierUid;
         this.context = context;
+        this.supplier = supplier;
+        this.distance = distance;
     }
 
     @NonNull
@@ -57,7 +62,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Glide.with(holder.img.getContext())
                 .load(storageReference)
                 .into(holder.img);
-        holder.itemView.setOnClickListener(v -> onItemClick(supplierUid, product));
+        holder.itemView.setOnClickListener(v -> onItemClick(supplierUid, product, supplier, distance));
     }
 
     @Override
@@ -80,9 +85,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
-    private void onItemClick(String uid, Product product){
+    private void onItemClick(String uid, Product product, Supplier supplier, double distance){
         Intent i = new Intent(context, BuyProduct.class);
         i.putExtra("uid", uid);
+        i.putExtra("distance", String.valueOf(distance));
+        i.putExtra("supplier", supplier);
         i.putExtra("product", product);
         i.putExtra("prodId", product.getUid());
         context.startActivity(i);

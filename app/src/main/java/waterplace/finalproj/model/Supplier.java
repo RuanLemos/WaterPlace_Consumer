@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Supplier {
+public class Supplier implements Serializable{
     private String name;
     private Long cnpj;
     private String phone;
