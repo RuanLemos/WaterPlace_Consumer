@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class OrderDetails extends AppCompatActivity {
     private Supplier supplier;
     private Order order;
     private Address userAddress;
+    private ImageButton back_arrow;
     private TextView supName;
     private TextView supDistance;
     private TextView supRating;
@@ -68,6 +70,10 @@ public class OrderDetails extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_order_details);
 
+        back_arrow = (ImageButton) findViewById(R.id.back_arrow_6);
+
+        back_arrow.setOnClickListener(v -> goBack());
+
         i = getIntent();
         order = (Order) i.getSerializableExtra("order");
 
@@ -83,6 +89,15 @@ public class OrderDetails extends AppCompatActivity {
 
         updateUI();
 
+    }
+
+    public void onBackPressed() {
+        goBack();
+    }
+
+    public void goBack(){
+        Intent i = new Intent(this,Orders.class);
+        startActivity(i);
     }
 
     @SuppressLint("SetTextI18n")

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +29,13 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import waterplace.finalproj.R;
+import waterplace.finalproj.adapter.SupplierAdapter;
 import waterplace.finalproj.dialog.ScheduleDeliveryDialog;
 import waterplace.finalproj.model.Address;
 import waterplace.finalproj.model.Product;
 import waterplace.finalproj.model.Order;
 import waterplace.finalproj.model.Supplier;
+import waterplace.finalproj.model.SupplierDistance;
 
 public class BuyProduct extends AppCompatActivity {
 
@@ -47,6 +50,7 @@ public class BuyProduct extends AppCompatActivity {
     private TextView prod_name;
     private TextView prod_price;
     private Button btn_delivery;
+    private ImageButton back_arrow;
     private double requestPrice;
     private Address address;
     private String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -59,6 +63,8 @@ public class BuyProduct extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_buy_product);
+
+        back_arrow = (ImageButton) findViewById(R.id.back_arrow_c_2);
 
         Intent intent = getIntent();
         product = (Product) intent.getSerializableExtra("product");
@@ -73,6 +79,8 @@ public class BuyProduct extends AppCompatActivity {
 
         btn_delivery.setOnClickListener(v -> makeOrder());
 
+        back_arrow.setOnClickListener(v -> goBack());
+
         // Adicionar OnClickListener para o botão "add_product"
         ImageView addProductButton = findViewById(R.id.add_product);
         addProductButton.setOnClickListener(v -> increaseAmount());
@@ -80,6 +88,17 @@ public class BuyProduct extends AppCompatActivity {
         // Adicionar OnClickListener para o botão "remove_product"
         ImageView removeProductButton = findViewById(R.id.remove_product);
         removeProductButton.setOnClickListener(v -> decreaseAmount());
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBack();
+    }
+
+    public void goBack(){
+        Intent i = new Intent(this,SupplierMenu.class);
+        i.putExtra("uid", uid);
+        startActivity(i);
     }
 
     private void updateUI(){
