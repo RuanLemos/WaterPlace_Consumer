@@ -53,29 +53,28 @@
         app:srcCompat="@drawable/lojinha" />
 
     <TextView
-        android:id="@+id/legenda"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="98dp"
-        android:text="Apenas galões"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/supplier_name" />
-
-    <TextView
         android:id="@+id/supplier_name"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="130dp"
-        android:layout_marginEnd="98dp"
+        android:layout_marginStart="17dp"
         android:text="Nome do fornecedor"
         android:textColor="@color/black"
         android:textSize="26dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/legenda"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="17dp"
+        android:text="Apenas galões"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name" />
+
 
     <FrameLayout
         android:id="@+id/image_container"
@@ -101,28 +100,27 @@
 
     <TextView
         android:id="@+id/nota"
-        android:layout_width="20dp"
+        android:layout_width="150dp"
         android:layout_height="20dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="357dp"
-        android:text="5.0"
+        android:layout_marginStart="17dp"
+        android:text=""
         android:textColor="#fce603"
         android:textSize="14dp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/legenda" />
+
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="230dp"
+        android:layout_marginEnd="215dp"
         android:scaleX="0.4"
         android:scaleY="0.4"
-        android:visibility="invisible"
+        android:isIndicator="true"
+        android:stepSize="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/supplier_name" />

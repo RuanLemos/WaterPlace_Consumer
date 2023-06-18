@@ -56,6 +56,9 @@ public class BuyProduct extends AppCompatActivity {
     private String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userUid);
     private Button schedule;
+    private TextView supName;
+    private TextView supRating;
+    private TextView supDistance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +67,22 @@ public class BuyProduct extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_buy_product);
 
-        back_arrow = (ImageButton) findViewById(R.id.back_arrow_c_2);
-
         Intent intent = getIntent();
+        supplier = (Supplier) intent.getSerializableExtra("supplier");
         product = (Product) intent.getSerializableExtra("product");
         uid = intent.getStringExtra("uid");
         prodUid = intent.getStringExtra("prodId");
+        Double distance = Double.valueOf(intent.getStringExtra("distance"));
+        DecimalFormat df = new DecimalFormat("0.0");
         btn_delivery = findViewById(R.id.delivery);
         schedule = findViewById(R.id.schedule_delivery);
-
+        back_arrow = (ImageButton) findViewById(R.id.back_arrow_c_2);
+        supName = findViewById(R.id.supplier_name_3);
+        supName.setText(supplier.getName());
+        supRating = findViewById(R.id.nota_3);
+        supRating.setText(String.valueOf(supplier.getRating()));
+        supDistance = findViewById(R.id.distance_2);
+        supDistance.setText(df.format(distance) + "km");
         updateUI();
 
         schedule.setOnClickListener(v -> scheduleDelivery());
