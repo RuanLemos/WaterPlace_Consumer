@@ -26,6 +26,7 @@ import waterplace.finalproj.R;
 import waterplace.finalproj.adapter.DeliveredOrderAdapter;
 import waterplace.finalproj.adapter.OngoingOrderAdapter;
 import waterplace.finalproj.adapter.ProductAdapter;
+import waterplace.finalproj.dialog.ReviewDialog;
 import waterplace.finalproj.model.Order;
 import waterplace.finalproj.util.BottomNavigationManager;
 
@@ -57,6 +58,8 @@ public class Orders extends AppCompatActivity {
         userRef.child(userUid).child("Orders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                onGoingOrders.clear();
+                finishedOrders.clear();
                 for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
                     order = orderSnapshot.getValue(Order.class);
                     order.setOrderId(orderSnapshot.getKey());
@@ -85,7 +88,7 @@ public class Orders extends AppCompatActivity {
     }
     private void updateDeliveredOrders(){
         RecyclerView recyclerView = findViewById(R.id.recycle_history);
-        DeliveredOrderAdapter adapter = new DeliveredOrderAdapter(finishedOrders, this);
+        DeliveredOrderAdapter adapter = new DeliveredOrderAdapter(finishedOrders, this, getFragmentManager());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
