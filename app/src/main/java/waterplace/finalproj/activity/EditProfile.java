@@ -51,6 +51,11 @@ public class EditProfile extends AppCompatActivity {
         setCampos();
     }
 
+    @Override
+    public void onBackPressed() {
+        //Desabilita a seta
+    }
+
     public boolean verifyPhone(String phoneNumber){
         String phonePattern = "^[0-9]{2} [0-9]{9}$";
         Pattern pattern = Pattern.compile(phonePattern);

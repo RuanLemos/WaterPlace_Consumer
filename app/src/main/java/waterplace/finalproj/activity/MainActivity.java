@@ -43,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        //Desabilita a arrow do android
+    }
+
     public void goLogin(){
         Intent i = new Intent(this,Login.class);
         startActivity(i);

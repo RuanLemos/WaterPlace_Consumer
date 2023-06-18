@@ -42,6 +42,7 @@ public class SupplierMenu extends AppCompatActivity {
 
     private String uid;
     private Supplier supplier;
+    private ImageButton back_arrow;
     private List<Product> products = new ArrayList<>();
     private DatabaseReference supplierRef;
 
@@ -51,6 +52,11 @@ public class SupplierMenu extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_supplier);
+
+        back_arrow = (ImageButton) findViewById(R.id.back_arrow_c);
+
+        back_arrow.setOnClickListener(v -> goBack());
+
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
         supplierRef = FirebaseDatabase.getInstance().getReference("Suppliers").child(uid);
@@ -68,6 +74,16 @@ public class SupplierMenu extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBack();
+    }
+
+    public void goBack(){
+        Intent i = new Intent(this, MainMenu.class);
+        startActivity(i);
     }
 
     private void setCapaImage() {

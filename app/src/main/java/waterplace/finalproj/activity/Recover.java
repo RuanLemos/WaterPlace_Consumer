@@ -47,6 +47,11 @@ public class Recover extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        goBack();
+    }
+
     public void sendEmail() {
         String email = ((android.widget.EditText) findViewById(R.id.input_email_2)).getText().toString();
         firebaseAuth = FirebaseAuth.getInstance();
