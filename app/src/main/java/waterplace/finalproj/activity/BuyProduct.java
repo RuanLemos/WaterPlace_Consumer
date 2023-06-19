@@ -59,6 +59,7 @@ public class BuyProduct extends AppCompatActivity {
     private TextView supName;
     private TextView supRating;
     private TextView supDistance;
+    private Double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class BuyProduct extends AppCompatActivity {
         product = (Product) intent.getSerializableExtra("product");
         uid = intent.getStringExtra("uid");
         prodUid = intent.getStringExtra("prodId");
-        Double distance = Double.valueOf(intent.getStringExtra("distance"));
+        distance = Double.valueOf(intent.getStringExtra("distance"));
         DecimalFormat df = new DecimalFormat("0.0");
         btn_delivery = findViewById(R.id.delivery);
         schedule = findViewById(R.id.schedule_delivery);
@@ -107,6 +108,8 @@ public class BuyProduct extends AppCompatActivity {
 
     public void goBack(){
         Intent i = new Intent(this,SupplierMenu.class);
+        //System.out.println(distance);
+        i.putExtra("distance", String.valueOf(distance));
         i.putExtra("uid", uid);
         startActivity(i);
     }
