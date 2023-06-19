@@ -73,25 +73,56 @@
             android:id="@+id/prod_status"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp"
             android:text="Status"
             android:textColor="@color/black"
             android:textSize="14dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/prod_delivery"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/nota_4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="60dp"
+            android:text="5.0"
+            android:textColor="#fce603"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/star_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="60dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/star" />
+
         <Button
             android:id="@+id/btn_review"
-            android:visibility="gone"
             android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:text="Deixar\nAvaliação"
-            android:textSize="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="65dp"
+            android:backgroundTint="#b5ff92"
+            android:text="Avaliar\nEntrega"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/prod_delivery"
             app:layout_constraintTop_toTopOf="parent" />
 
